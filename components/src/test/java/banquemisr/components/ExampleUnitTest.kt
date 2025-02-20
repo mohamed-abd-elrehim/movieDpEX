@@ -1,4 +1,4 @@
-package banquemisr.domain
+package banquemisr.components
 
 import org.junit.Test
 
