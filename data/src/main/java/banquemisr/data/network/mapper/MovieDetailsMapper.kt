@@ -1,4 +1,4 @@
-package banquemisr.data.network.model
+package banquemisr.data.network.mapper
 
 import banquemisr.domain.model.CollectionInfo
 import banquemisr.domain.model.Genre
@@ -7,7 +7,6 @@ import banquemisr.domain.model.ProductionCompany
 import banquemisr.domain.model.ProductionCountry
 import banquemisr.domain.model.SpokenLanguage
 import com.google.gson.annotations.SerializedName
-
 data class MovieDetailsDTO(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
