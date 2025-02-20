@@ -69,7 +69,6 @@ dependencies {
 
 
 
-
 	implementation(libs.coil.compose)
 	implementation(libs.kotlinx.coroutines.android)
 	implementation(libs.hilt.android)
@@ -78,4 +77,6 @@ dependencies {
 	implementation(libs.nav.compose)
 	implementation(libs.retrofit)
 	implementation(libs.gson)
+	implementation(libs.converter.gson)
+	implementation(libs.logging.interceptor)
 }
