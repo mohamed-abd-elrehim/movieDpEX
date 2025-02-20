@@ -1,6 +1,5 @@
 package banquemisr.domain.model
 
-import com.google.gson.annotations.SerializedName
 
 
 data class Movie(

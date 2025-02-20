@@ -1,4 +1,4 @@
-package banquemisr.data.network
+package banquemisr.data.network.constants
 
 
 object APIKeys {
@@ -22,8 +22,13 @@ object APIKeys {
     //EndPoints Params
     const val MOVIE_ID_PARAM = "movie_id"
     const val APIKey = "api_key"
-    const val SORT_BY = "popularity.desc"
-    const val CERTIFICATION_COUNTRY = "EG"
+    const val SORT_BY = "sort_by"
+    const val CERTIFICATION_COUNTRY = "certification_country"
+
+    //EndPoints Params values
+    const val SORT_BY_VALUE = "popularity.desc"
+    const val CERTIFICATION_COUNTRY_VALUE = "EG"
+
 
 
 
