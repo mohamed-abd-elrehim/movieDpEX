@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: MovieRemoteDataSource
 ) : MovieRepository {
-    override suspend fun getUpcomingMovies(
+    override suspend fun fetchUpcomingMovies(
         sortBy: String,
         certificationCountry: String
     ): Flow<List<Movie>> {
@@ -24,7 +24,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNowPlayingMovies(
+    override suspend fun fetchNowPlayingMovies(
         sortBy: String,
         certificationCountry: String
     ): Flow<List<Movie>> {
@@ -35,7 +35,7 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMovieDetails(movieId: Int): Flow<MovieDetails> {
+    override suspend fun fetchMovieDetails(movieId: Int): Flow<MovieDetails> {
         val movieDetailsDTO = remoteDataSource.fetchMovieDetails(movieId)
         return flow {
             val movieDetails = movieDetailsDTO.toMovieDetails()
