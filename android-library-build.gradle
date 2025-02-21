@@ -2,7 +2,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.dagger.hilt.android'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
@@ -71,8 +71,10 @@ dependencies {
 
 	implementation(libs.coil.compose)
 	implementation(libs.kotlinx.coroutines.android)
+
 	implementation(libs.hilt.android)
 	kapt(libs.hilt.android.compiler)
+
 	implementation(libs.hilt.navigation.compose)
 	implementation(libs.nav.compose)
 	implementation(libs.retrofit)

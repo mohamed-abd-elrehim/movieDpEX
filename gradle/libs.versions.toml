@@ -47,6 +47,7 @@ kotlinx-coroutines-android={module = "org.jetbrains.kotlinx:kotlinx-coroutines-a
 hilt-android-compiler={module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-dagger"}
 hilt-android={module = "com.google.dagger:hilt-android", version.ref = "hilt-dagger"}
 hilt-navigation-compose={ module = "androidx.hilt:hilt-navigation-compose", version.ref ="androidx-hilt" }
+
 nav_compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "nav_version" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
