@@ -3,6 +3,7 @@ package banquemisr.domain.use_case.interactors
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
+import banquemisr.core.util.app_exception.ExceptionHandler
 import banquemisr.domain.model.Movie
 import banquemisr.domain.use_case.MovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,11 +26,12 @@ class GetNowPlayingMovies @Inject constructor(
                 emit(DataState.Data(it))
             }
         } catch (e: Exception) {
+            val exception = ExceptionHandler.handleException(e)
             emit(
                 DataState.Response(
                     uiComponent = UIComponent.Dialog(
                         title = "Error",
-                        description = e.message ?: "An unknown error occurred"
+                        description = exception.message
                     )
                 )
             )
