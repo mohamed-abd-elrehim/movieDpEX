@@ -1,5 +1,6 @@
 package banquemisr.domain.use_case.interactors
 
+import android.util.Log
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
@@ -10,20 +11,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetNowPlayingMovies @Inject constructor(
+class FetchNowPlayingMovies @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
 
     operator fun invoke(
         sortBy: String, certificationCountry: String
     ): Flow<DataState<List<Movie>>> = flow {
+        Log.d("FetchNowPlayingMovies", "invoke: $sortBy, $certificationCountry")
         emit(DataState.Loading(progressBarState = ProgressBarState.Loading))
         try {
           movieRepository.fetchNowPlayingMovies(
                 sortBy,
                 certificationCountry
-            ).collect {
-                emit(DataState.Data(it))
+            ).collect { data->
+                emit(DataState.Data(data))
             }
         } catch (e: Exception) {
             val exception = ExceptionHandler.handleException(e)

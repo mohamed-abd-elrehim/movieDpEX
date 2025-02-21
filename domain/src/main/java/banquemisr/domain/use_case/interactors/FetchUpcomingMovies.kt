@@ -4,21 +4,27 @@ import banquemisr.core.domain.DataState
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
 import banquemisr.core.util.app_exception.ExceptionHandler
-import banquemisr.domain.model.MovieDetails
+import banquemisr.domain.model.Movie
 import banquemisr.domain.use_case.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class GetMovieDetails @Inject constructor(
+class FetchUpcomingMovies@Inject constructor(
     private val movieRepository: MovieRepository
-
 ) {
-    operator fun invoke(movieId: Int): Flow<DataState<MovieDetails>> = flow {
+
+    //في Kotlin، الكلمة operator fun invoke تسمح باستدعاء الكائن مباشرةً كما لو كان دالة، بينما suspend تجعل الدالة تعمل داخل الكوروتين (Coroutine).
+     operator fun invoke(
+        sortBy: String, certificationCountry: String
+    ): Flow<DataState<List<Movie>>> = flow {
         emit(DataState.Loading(progressBarState = ProgressBarState.Loading))
         try {
-           movieRepository.fetchMovieDetails(movieId).collect {
-                emit(DataState.Data(it))
+          movieRepository.fetchUpcomingMovies(
+                sortBy,
+                certificationCountry
+            ).collect {data->
+                emit(DataState.Data(data))
             }
         } catch (e: Exception) {
             val exception = ExceptionHandler.handleException(e)
@@ -30,8 +36,12 @@ class GetMovieDetails @Inject constructor(
                     )
                 )
             )
+
         } finally {
             emit(DataState.Loading(progressBarState = ProgressBarState.Idle))
+
         }
+
     }
+
 }

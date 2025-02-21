@@ -3,9 +3,7 @@ package banquemisr.data.di
 import banquemisr.data.network.api.MovieDbAPIServices
 import banquemisr.data.network.client.MovieDPClient
 import banquemisr.data.network.remote.MovieRemoteDataSource
-import banquemisr.data.network.repository.MovieRepositoryImpl
-import banquemisr.domain.use_case.MovieRepository
-import dagger.Binds
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,12 +27,12 @@ object DataModule {
         return MovieRemoteDataSource(apiService)
     }
 
-    @Provides
-    @Singleton
-    fun provideMovieRepositoryImpl(remoteDataSource: MovieRemoteDataSource): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource)
-
-    }
+//    @Provides
+//    @Singleton
+//    fun provideMovieRepositoryImpl(remoteDataSource: MovieRemoteDataSource): MovieRepository {
+//        return MovieRepositoryImpl(remoteDataSource)
+//
+//    }
 
 
 

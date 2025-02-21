@@ -1,5 +1,6 @@
 package banquemisr.data.network.mapper
 
+import banquemisr.data.network.constants.APIKeys
 import banquemisr.domain.model.Movie
 import com.google.gson.annotations.SerializedName
 
@@ -34,9 +35,8 @@ data class MovieDbResultDTO(
         id = this.id,
         title = this.title,
         overview = this.overview,
-        posterPath = this.posterPath,
-        backdropPath = this.backdropPath,
-        releaseDate = this.releaseDate,
+        posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
+        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",  releaseDate = this.releaseDate,
         voteAverage = this.voteAverage,
         voteCount = this.voteCount,
         genreIds = this.genreIds,
