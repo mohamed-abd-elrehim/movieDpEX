@@ -78,11 +78,6 @@ dependencies {
     implementation(libs.nav.compose)
     implementation(libs.retrofit)
     implementation(libs.gson)
-
-
-    implementation(project(":domain"))
-    implementation(project(":core"))
-    implementation(project(":data"))
 }
 
 
