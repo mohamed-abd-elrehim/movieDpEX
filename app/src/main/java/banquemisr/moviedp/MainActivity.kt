@@ -1,5 +1,6 @@
 package banquemisr.moviedp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +20,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import banquemisr.domain.use_case.MovieRepository
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.lifecycleScope
+import banquemisr.core.domain.DataState
+import banquemisr.domain.use_case.interactors.GetNowPlayingMovies
 import banquemisr.moviedp.ui.theme.MovieDpTheme
 import banquemisr.moviedp.ui.theme.NavControllerHolder
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreen
@@ -26,6 +31,7 @@ import banquemisr.presentation.screen.details_screen.ui.DetailsScreenViewModel
 import banquemisr.presentation.screen.list_screen.ui.ListScreen
 import banquemisr.presentation.screen.list_screen.ui.ListScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,8 +44,6 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var navControllerHolder: NavControllerHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -92,9 +96,9 @@ fun NavGraphBuilder.addListScreen(
     ) {
         val listScreenViewModel: ListScreenViewModel = hiltViewModel()
 
-        ListScreen(
-            viewModel = listScreenViewModel,
-        )
+ListScreen(
+viewModel = listScreenViewModel,
+    )
 
     }
 }
