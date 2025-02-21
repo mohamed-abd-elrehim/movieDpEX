@@ -10,6 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 
 @Composable
@@ -23,6 +24,8 @@ fun AppText(
     letterSpacing: TextUnit = TextUnit.Unspecified,
     textAlign: TextAlign = TextAlign.Center,
     style:TextStyle = TextStyle.Default,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
 
     ) {
 
@@ -35,7 +38,9 @@ fun AppText(
             fontStyle = fontStyle,
             letterSpacing = letterSpacing,
             textAlign = textAlign,
-            style = style
+            style = style,
+            maxLines = maxLines,
+            overflow = overflow
         )
 
 }
