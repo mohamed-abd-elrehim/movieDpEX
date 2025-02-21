@@ -1,5 +1,6 @@
 package banquemisr.data.network.mapper
 
+import banquemisr.data.network.constants.APIKeys
 import banquemisr.domain.model.CollectionInfo
 import banquemisr.domain.model.Genre
 import banquemisr.domain.model.MovieDetails
@@ -68,8 +69,8 @@ data class SpokenLanguageDTO(
 fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
     return MovieDetails(
         adult = this.adult,
-        backdropPath = this.backdropPath,
-        belongsToCollection = this.belongsToCollection?.toCollectionInfo(),
+        posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
+        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",  belongsToCollection = this.belongsToCollection?.toCollectionInfo(),
         budget = this.budget,
         genres = this.genres.map { it.toGenre() },
         homepage = this.homepage,
@@ -80,7 +81,6 @@ fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        posterPath = this.posterPath,
         productionCompanies = this.productionCompanies.map { it.toProductionCompany() },
         productionCountries = this.productionCountries.map { it.toProductionCountry() },
         releaseDate = this.releaseDate,

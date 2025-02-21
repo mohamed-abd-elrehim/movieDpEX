@@ -1,6 +1,6 @@
 package banquemisr.presentation.screen.list_screen.components
 
-import androidx.compose.foundation.Image
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,20 +21,30 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import banquemisr.components.shared_components.AppText
+import banquemisr.components.shared_components.LoadAsyncImage
+import banquemisr.domain.model.Movie
 import banquemisr.presentation.R
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
+import coil.ImageLoader
 
 @Composable
-fun MovieCard() {
+fun MovieCard(
+    movie: Movie,
+    imageLoader: ImageLoader,
+    onClick: (Int) -> Unit = {},
+    context: Context
+) {
     ElevatedCard(
-        onClick = { /* Do something */ },
+        onClick = { onClick(movie.id) },
         modifier = Modifier
             .size(150.dp, 200.dp),
     ) {
@@ -42,12 +52,17 @@ fun MovieCard() {
             modifier = Modifier.fillMaxSize()
         ) {
             // Movie Image
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-            )
+            movie.posterPath?.let {
+                LoadAsyncImage(
+                    imageUrl = it,
+                    imageTitle = movie.title,
+                    modifier = Modifier.fillMaxSize(),
+                    imageLoader = imageLoader,
+                    context = context,
+                    contentScale = ContentScale.Crop
+                )
+            }
+
 
 
             Box(
@@ -57,7 +72,7 @@ fun MovieCard() {
                         Brush.verticalGradient(
                             colors = listOf(Color.Transparent, PrimaryColor, PrimaryColor),
                             startY = 0f,
-                            endY = 2000f
+                            endY = 1000f
                         )
                     )
                     .padding(3.dp)
@@ -74,7 +89,7 @@ fun MovieCard() {
 
                     ){
                     AppText(
-                        text = "${String.format("%.2f", 4.5)}",
+                        text = String.format("%.1f", movie.voteAverage),
                         color = PrimaryColor,
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -88,19 +103,21 @@ fun MovieCard() {
                 }
                 Column(
                     modifier = Modifier.align(Alignment.BottomStart)
-                    .padding(start = 5.dp)
                 ) {
                     AppText(
-                        text = "Movie Title",
+                        text = movie.title,
                         color = Color.White,
                         style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                        fontSize = 20.sp,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                     AppText(
-                        text = ("Release Date"),
+                        text = (stringResource(R.string.release_date, movie.releaseDate) ),
                         color = Color.White.copy(alpha = 0.8f),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
+
+
                     )
 
                 }
@@ -109,11 +126,29 @@ fun MovieCard() {
         }
     }
 }
-
-
-
 @Composable
-@Preview(showBackground = true)
+@Preview
 fun MovieCardPreview() {
-    MovieCard()
+    MovieCard(
+        movie = Movie(
+            id = 1,
+            title = "Movie Title",
+            overview = "Movie overview",
+            posterPath = "https://image.tmdb.org/t/p/w500/poster_path.jpg",
+            backdropPath = "https://image.tmdb.org/t/p/w500/backdrop_path.jpg",
+            releaseDate = "2023-07-01",
+            voteAverage = 8.5,
+            voteCount = 1000,
+            genreIds = listOf(1, 2, 3),
+            popularity = 7.8,
+            adult = false,
+            originalLanguage = "en",
+            originalTitle = "Original Title",
+
+            video = false
+        ),
+        imageLoader = ImageLoader.Builder(LocalContext.current).build(),
+        context = LocalContext.current
+    )
 }
+

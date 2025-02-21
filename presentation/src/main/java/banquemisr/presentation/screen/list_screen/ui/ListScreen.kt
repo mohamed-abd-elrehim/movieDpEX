@@ -1,5 +1,7 @@
 package banquemisr.presentation.screen.list_screen.ui
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,54 +14,87 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.Gap
+import banquemisr.components.shared_components.PullToRefreshBox
+import banquemisr.domain.model.Movie
 import banquemisr.presentation.R
 import banquemisr.presentation.screen.list_screen.components.MovieCard
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
+import coil.ImageLoader
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen() {
+fun ListScreen ( viewModel: ListScreenViewModel) {
+    val state = viewModel.state.collectAsState()
+    val context = LocalContext.current
+    PullToRefreshBox(
+        isRefreshing = state.value.isRefreshing,
+        onRefresh = {
 
-    Column(
-        modifier = Modifier
-            .background(PrimaryColor)
-            .fillMaxSize()
-            .padding(10.dp)
-    ) {
-        AppText(
-            text = "List Screen",
-            style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-            color = SecondaryColor,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        )
+            viewModel.onIntent(ListScreenIntent.RefreshMovies)
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .background(PrimaryColor)
+                    .fillMaxSize()
+                    .padding(10.dp)
+            ) {
+                AppText(
+                    text = "List Screen",
+                    style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                    color = SecondaryColor,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                )
 
-        Gap(height = 10)
-
-
-        MovieSection(title = "Upcoming", isHorizontal = true)
-
-
-        Gap(height = 10)
-
-        MovieSection(title = "Now Playing", isHorizontal = false)
+                Gap(height = 10)
 
 
+                state.value.imageLoader?.let {
+                    MovieSection(title = "Upcoming", isHorizontal = true ,movies = state.value
+                        .upcomingMovies,context = context,imageLoader = it,
+                        onClick = {movieId->
+                            Toast.makeText(context, "Movie Clicked ${movieId}", Toast
+                                .LENGTH_SHORT).show()
+                        }
+                    )
+                }
 
-    }
+
+                Gap(height = 10)
+
+                state.value.imageLoader?.let {
+                    MovieSection(title = "Now Playing", isHorizontal = false, movies = state.value
+                        .nowPlayingMovies,context = context,imageLoader = it,
+                        onClick = {movieId->
+                            Toast.makeText(context, "Movie Clicked ${movieId}", Toast
+                                .LENGTH_SHORT).show()
+                        }
+                    )
+                }
+
+            }
+
+
+        }
+    )
 }
 
 @Composable
@@ -101,7 +136,9 @@ fun MovieSectionTitle(title: String, isHorizontal: Boolean) {
 
 
 @Composable
-fun MovieSection(title: String, isHorizontal: Boolean) {
+fun MovieSection(title: String, isHorizontal: Boolean,movies: List<Movie> , imageLoader:
+ImageLoader , context: Context , onClick: (Int) -> Unit = {}
+) {
     MovieSectionTitle (title = title, isHorizontal = isHorizontal)
 
     Gap(height = 5)
@@ -111,8 +148,14 @@ fun MovieSection(title: String, isHorizontal: Boolean) {
             contentPadding = PaddingValues(horizontal = 10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(10) {
-                MovieCard()
+            items(movies.size) { index ->
+                MovieCard(movies[index],imageLoader,context = context,
+                    onClick = { movieId->
+                        onClick(movieId)
+
+
+                    }
+                )
             }
         }
     } else {
@@ -121,8 +164,14 @@ fun MovieSection(title: String, isHorizontal: Boolean) {
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(10) {
-                MovieCard()
+            items(movies.size) { index ->
+                MovieCard(movies[index],imageLoader,context = context,
+                    onClick = { movieId->
+                        onClick(movieId)
+
+
+                    }
+                )
             }
         }
     }

@@ -1,9 +1,9 @@
 package banquemisr.domain.di
 
 import banquemisr.domain.use_case.MovieRepository
-import banquemisr.domain.use_case.interactors.GetMovieDetails
-import banquemisr.domain.use_case.interactors.GetNowPlayingMovies
-import banquemisr.domain.use_case.interactors.GetUpcomingMovies
+import banquemisr.domain.use_case.interactors.FetchMovieDetails
+import banquemisr.domain.use_case.interactors.FetchNowPlayingMovies
+import banquemisr.domain.use_case.interactors.FetchUpcomingMovies
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,23 +15,22 @@ import javax.inject.Singleton
 object DomainModule {
 
 
-
     @Provides
     @Singleton
-    fun provideGetNowPlayingMoviesUseCase(movieRepository: MovieRepository): GetNowPlayingMovies {
-        return GetNowPlayingMovies(movieRepository)
+    fun provideFetchNowPlayingMoviesUseCase(movieRepository: MovieRepository): FetchNowPlayingMovies {
+        return FetchNowPlayingMovies(movieRepository)
     }
 
     @Provides
     @Singleton
-    fun provideGetMovieDetailsUseCase(movieRepository: MovieRepository): GetMovieDetails {
-        return GetMovieDetails(movieRepository)
+    fun provideFetchMovieDetailsUseCase(movieRepository: MovieRepository):FetchMovieDetails {
+        return FetchMovieDetails(movieRepository)
     }
 
 
     @Provides
     @Singleton
-    fun provideGetUpcomingMoviesUseCase(movieRepository: MovieRepository): GetUpcomingMovies {
-        return GetUpcomingMovies(movieRepository)
+    fun provideFetchUpcomingMoviesUseCase(movieRepository: MovieRepository): FetchUpcomingMovies {
+        return FetchUpcomingMovies(movieRepository)
     }
 }
