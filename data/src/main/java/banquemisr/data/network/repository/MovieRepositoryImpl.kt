@@ -1,5 +1,6 @@
 package banquemisr.data.network.repository
 
+import banquemisr.data.network.constants.APIKeys
 import banquemisr.data.network.mapper.toMovieDetails
 import banquemisr.data.network.mapper.toMovies
 import banquemisr.data.network.remote.MovieRemoteDataSource
@@ -17,7 +18,7 @@ class MovieRepositoryImpl @Inject constructor(
         sortBy: String,
         certificationCountry: String
     ): Flow<List<Movie>> {
-        val movieDbResultDTO = remoteDataSource.fetchUpcomingMovies(sortBy, certificationCountry)
+        val movieDbResultDTO = remoteDataSource.fetchUpcomingMovies(APIKeys.SORT_BY_VALUE, APIKeys.CERTIFICATION_COUNTRY_VALUE)
         return flow {
             val movies = movieDbResultDTO.results.toMovies()
             emit(movies)
@@ -28,7 +29,7 @@ class MovieRepositoryImpl @Inject constructor(
         sortBy: String,
         certificationCountry: String
     ): Flow<List<Movie>> {
-        val movieDbResultDTO = remoteDataSource.fetchNowPlayingMovies(sortBy, certificationCountry)
+        val movieDbResultDTO = remoteDataSource.fetchNowPlayingMovies(APIKeys.SORT_BY_VALUE, APIKeys.CERTIFICATION_COUNTRY_VALUE)
         return flow {
             val movies = movieDbResultDTO.results.toMovies()
             emit(movies)
