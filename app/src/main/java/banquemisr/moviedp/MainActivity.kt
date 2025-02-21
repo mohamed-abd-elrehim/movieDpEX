@@ -106,7 +106,6 @@ fun NavGraphBuilder.addListScreen(
 
             }
         }
-
 fun NavGraphBuilder.addDetailsScreen(
 ) {
     composable(

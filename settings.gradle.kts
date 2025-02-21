@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "movieDp"
 include(":app")
+include(":domain")
+include(":core")
+include(":data")
+include(":components")
+include(":presentaion")
