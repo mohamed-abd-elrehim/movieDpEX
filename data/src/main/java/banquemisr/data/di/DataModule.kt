@@ -29,12 +29,7 @@ object DataModule {
         return MovieRemoteDataSource(apiService)
     }
 
-    @Provides
-    @Singleton
-    fun provideMovieRepositoryImpl(remoteDataSource: MovieRemoteDataSource): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource)
 
-    }
 
 
 
