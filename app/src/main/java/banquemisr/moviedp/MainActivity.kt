@@ -104,10 +104,6 @@ fun NavGraphBuilder.addListScreen(
 
         ListScreen(
             viewModel = listScreenViewModel,
-            navToMovieDetail = {
-                navController.navigate("${Screen.DetailsScreen.route}/${it}")
-
-            },
         )
 
     }
@@ -133,10 +129,7 @@ fun NavGraphBuilder.addDetailsScreen(
         }
     ) {
         val detailsScreenViewModel: DetailsScreenViewModel = hiltViewModel()
-        DetailsScreen(viewModel = detailsScreenViewModel,
-            onNavBack = {
-                navController.popBackStack()
-            }
+        DetailsScreen(viewModel = detailsScreenViewModel
         )
     }
 }
