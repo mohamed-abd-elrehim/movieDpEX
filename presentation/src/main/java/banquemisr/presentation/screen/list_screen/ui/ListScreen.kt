@@ -26,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.PullToRefreshBox
@@ -40,8 +39,7 @@ import coil.ImageLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen ( viewModel: ListScreenViewModel,
-                 navToMovieDetail:(Int)->Unit)
+fun ListScreen ( viewModel: ListScreenViewModel)
 {
     val state = viewModel.state.collectAsState()
     val context = LocalContext.current

@@ -10,12 +10,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun AppIconButton(
     icon: ImageVector = Icons.Default.Close,
+    iconModifier: Modifier = Modifier.padding(4.dp),
+    iconTint :Color =MaterialTheme.colorScheme.primary,
     modifier: Modifier = Modifier, // Allow custom modifier
     onClick: () -> Unit
 ) {
@@ -32,7 +35,8 @@ fun AppIconButton(
         Icon(
             imageVector = icon,
             contentDescription = "Icon Button",
-            tint = MaterialTheme.colorScheme.primary
+            tint = iconTint,
+            modifier = iconModifier
         )
     }
 }
