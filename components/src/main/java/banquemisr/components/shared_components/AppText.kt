@@ -22,7 +22,7 @@ fun AppText(
     fontWeight: FontWeight? = null,
     fontStyle: FontStyle? = null,
     letterSpacing: TextUnit = TextUnit.Unspecified,
-    textAlign: TextAlign = TextAlign.Center,
+    textAlign: TextAlign = TextAlign.Start,
     style:TextStyle = TextStyle.Default,
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip,

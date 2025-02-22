@@ -2,10 +2,7 @@ package banquemisr.data.network.mapper
 
 import banquemisr.data.network.constants.APIKeys
 import banquemisr.domain.model.CollectionInfo
-import banquemisr.domain.model.Genre
 import banquemisr.domain.model.MovieDetails
-import banquemisr.domain.model.ProductionCompany
-import banquemisr.domain.model.ProductionCountry
 import banquemisr.domain.model.SpokenLanguage
 import com.google.gson.annotations.SerializedName
 data class MovieDetailsDTO(
@@ -72,7 +69,7 @@ fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
         posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
         backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",  belongsToCollection = this.belongsToCollection?.toCollectionInfo(),
         budget = this.budget,
-        genres = this.genres.map { it.toGenre() },
+        genres = this.genres.toGenreNames(),
         homepage = this.homepage,
         id = this.id,
         imdbId = this.imdbId,
@@ -81,8 +78,10 @@ fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        productionCompanies = this.productionCompanies.map { it.toProductionCompany() },
-        productionCountries = this.productionCountries.map { it.toProductionCountry() },
+        productionCompanies = this.productionCompanies.toProductionCompanyNames(),
+
+
+        productionCountries = this.productionCountries.toProductionCountriesNames() ,
         releaseDate = this.releaseDate,
         revenue = this.revenue,
         runtime = this.runtime,
@@ -104,26 +103,18 @@ fun CollectionInfoDTO.toCollectionInfo(): CollectionInfo {
     )
 }
 
-fun GenreDTO.toGenre(): Genre {
-    return Genre(
-        id = this.id,
-        name = this.name
-    )
+fun List<GenreDTO>.toGenreNames(): List<String> {
+    return this.map { it.name }
 }
-fun ProductionCompanyDTO.toProductionCompany(): ProductionCompany {
-    return ProductionCompany(
-        id = this.id,
-        logoPath = this.logoPath,
-        name = this.name,
-        originCountry = this.originCountry
-    )
+fun List<ProductionCountryDTO>.toProductionCountriesNames(): List<String> {
+    return this.map { it.name }
 }
-fun ProductionCountryDTO.toProductionCountry(): ProductionCountry {
-    return ProductionCountry(
-        isoCode = this.isoCode,
-        name = this.name
-    )
+fun List<ProductionCompanyDTO>.toProductionCompanyNames(): List<Pair<String, String>> {
+    return this.map { Pair(it.name, "${APIKeys.MOVIEDB_IMAGE_URL}${it.logoPath}") }
 }
+
+
+
 fun SpokenLanguageDTO.toSpokenLanguage(): SpokenLanguage {
     return SpokenLanguage(
         englishName = this.englishName,
