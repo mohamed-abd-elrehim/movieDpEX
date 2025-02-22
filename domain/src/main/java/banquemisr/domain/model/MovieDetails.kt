@@ -2,31 +2,36 @@ package banquemisr.domain.model
 
 data class MovieDetails(
     val adult: Boolean,
-    val backdropPath: String?,
     val belongsToCollection: CollectionInfo?,
-    val budget: Int,
-    val genres: List<Genre>,
-    val homepage: String?,
-    val id: Int,
-    val imdbId: String?,
-    val originCountry: List<String>,
-    val originalLanguage: String,
     val originalTitle: String,
-    val overview: String?,
-    val popularity: Double,
-    val posterPath: String?,
-    val productionCompanies: List<ProductionCompany>,
-    val productionCountries: List<ProductionCountry>,
-    val releaseDate: String,
+    val originalLanguage: String,
     val revenue: Long,
-    val runtime: Int?,
-    val spokenLanguages: List<SpokenLanguage>,
+    val video: Boolean,
     val status: String,
+    val imdbId: String?,
+    val homepage: String?,
+    val originCountry: List<String>,
+    val spokenLanguages: List<SpokenLanguage>,
+
+
+
+    val id: Int,
+    val backdropPath: String?,
     val tagline: String?,
     val title: String,
-    val video: Boolean,
     val voteAverage: Double,
-    val voteCount: Int
+    val voteCount: Int,
+    val releaseDate: String,
+    val popularity: Double,
+    val runtime: Int?,
+    val genres: List<String>,
+    val overview: String?,
+    val productionCountries: List<String>,
+    val productionCompanies: List<Pair<String, String>>,
+    val budget: Int,
+
+
+    val posterPath: String?,
 )
 
 data class CollectionInfo(
@@ -36,22 +41,10 @@ data class CollectionInfo(
     val backdropPath: String?
 )
 
-data class Genre(
-    val id: Int,
-    val name: String
-)
 
-data class ProductionCompany(
-    val id: Int,
-    val logoPath: String?,
-    val name: String,
-    val originCountry: String
-)
 
-data class ProductionCountry(
-    val isoCode: String,
-    val name: String
-)
+
+
 
 data class SpokenLanguage(
     val englishName: String,
