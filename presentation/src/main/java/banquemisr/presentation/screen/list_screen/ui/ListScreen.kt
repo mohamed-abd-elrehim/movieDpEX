@@ -1,7 +1,6 @@
 package banquemisr.presentation.screen.list_screen.ui
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.PullToRefreshBox
@@ -40,7 +40,9 @@ import coil.ImageLoader
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListScreen ( viewModel: ListScreenViewModel) {
+fun ListScreen ( viewModel: ListScreenViewModel,
+                 navToMovieDetail:(Int)->Unit)
+{
     val state = viewModel.state.collectAsState()
     val context = LocalContext.current
     PullToRefreshBox(
@@ -71,8 +73,8 @@ fun ListScreen ( viewModel: ListScreenViewModel) {
                     MovieSection(title = "Upcoming", isHorizontal = true ,movies = state.value
                         .upcomingMovies,context = context,imageLoader = it,
                         onClick = {movieId->
-                            Toast.makeText(context, "Movie Clicked ${movieId}", Toast
-                                .LENGTH_SHORT).show()
+                            viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
+
                         }
                     )
                 }
@@ -84,8 +86,7 @@ fun ListScreen ( viewModel: ListScreenViewModel) {
                     MovieSection(title = "Now Playing", isHorizontal = false, movies = state.value
                         .nowPlayingMovies,context = context,imageLoader = it,
                         onClick = {movieId->
-                            Toast.makeText(context, "Movie Clicked ${movieId}", Toast
-                                .LENGTH_SHORT).show()
+                            viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
                         }
                     )
                 }

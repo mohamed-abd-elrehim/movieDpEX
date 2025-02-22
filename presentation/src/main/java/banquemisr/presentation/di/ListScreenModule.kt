@@ -1,15 +1,15 @@
-package banquemisr.presentation.screen.list_screen.di
+package banquemisr.presentation.di
 
 import banquemisr.core.util.Logger
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object ListScreenModule {
 
 

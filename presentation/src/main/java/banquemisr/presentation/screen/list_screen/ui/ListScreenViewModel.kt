@@ -2,10 +2,13 @@ package banquemisr.presentation.screen.list_screen.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.UIComponent
+import banquemisr.core.util.Logger
 import banquemisr.domain.use_case.interactors.FetchNowPlayingMovies
 import banquemisr.domain.use_case.interactors.FetchUpcomingMovies
+import banquemisr.presentation.navigation.NavToDetailsScreen
 import coil.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +17,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class ListScreenViewModel @Inject constructor(
     private val fetchNowPlayingMovies: FetchNowPlayingMovies,
     private val fetchUpcomingMovies: FetchUpcomingMovies,
-    private val imageLoader: ImageLoader
+    private val imageLoader: ImageLoader,
+    @Named("ListScreenLogger") private val logger: Logger,
+    private val navToDetailsScreen: NavToDetailsScreen
+
 ) : ViewModel() {
 
 
@@ -37,16 +44,14 @@ class ListScreenViewModel @Inject constructor(
             )
 
             is ListScreenIntent.RefreshMovies -> onPageRefresh()
-            is ListScreenIntent.MovieClicked -> onMovieClicked(intent.movieId)
+            is ListScreenIntent.MovieClicked -> onEvent(ListScreenEvent.NavigateToMovieDetails(intent.movieId))
         }
 
     }
 
-    fun onEvent(event: ListScreenEvent) {
+    private fun onEvent(event: ListScreenEvent) {
         when (event) {
-            is ListScreenEvent.NavigateToMovieDetails -> {
-                // logger.log("Navigating to movie details: ${event.movieId}")
-            }
+            is ListScreenEvent.NavigateToMovieDetails -> onMovieClicked(event.movieId)
         }
     }
 
@@ -123,8 +128,9 @@ class ListScreenViewModel @Inject constructor(
     }
 
 
-    private fun onMovieClicked(movieId: Int) {
-        //logger.log("onMovieClicked: $movieId")
+    private fun onMovieClicked(movieId: Int){
+        logger.log("onMovieClicked $movieId")
+        navToDetailsScreen(movieId)
     }
 
 
@@ -132,14 +138,15 @@ class ListScreenViewModel @Inject constructor(
         when (uiComponent) {
             is UIComponent.Dialog -> {
                 uiComponent.description?.let {
-                    //logger.log(it)
+                    logger.log(it)
 
                 }
 
             }
 
             is UIComponent.None -> {
-                uiComponent.message?.let { //logger.log(it)
+                uiComponent.message?.let {
+                    logger.log(it)
                 }
 
             }

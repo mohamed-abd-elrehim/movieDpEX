@@ -1,4 +1,4 @@
-package banquemisr.presentation.screen.list_screen.di
+package banquemisr.presentation.di
 
 
 import android.content.Context
