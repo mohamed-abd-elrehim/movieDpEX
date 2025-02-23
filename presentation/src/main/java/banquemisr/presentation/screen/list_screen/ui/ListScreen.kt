@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppText
-import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
+import banquemisr.components.shared_components.MovieLoadingIndicator
 import banquemisr.components.shared_components.PullToRefreshBox
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
@@ -44,7 +44,7 @@ fun ListScreen ( viewModel: ListScreenViewModel)
                 modifier = Modifier
                     .background(PrimaryColor)
                     .fillMaxSize()
-                    
+
                     .padding(10.dp)
             ) {
                 AppText(
@@ -103,7 +103,7 @@ fun ListScreen ( viewModel: ListScreenViewModel)
 
             }
             if (state.value.progressBarState is ProgressBarState.Loading) {
-                CircularIndeterminateProgressBar()
+                MovieLoadingIndicator()
             }
         }
 

@@ -28,9 +28,9 @@ import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppIconButton
 import banquemisr.components.shared_components.AppText
-import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.LoadAsyncImage
+import banquemisr.components.shared_components.MovieLoadingIndicator
 import banquemisr.components.shared_components.PullToRefreshBox
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
@@ -41,7 +41,6 @@ import banquemisr.presentation.screen.details_screen.components.MovieDetailsSeco
 import banquemisr.presentation.screen.details_screen.components.MovieHeader
 import banquemisr.presentation.screen.details_screen.components.MovieProductionCompaniesChipList
 import banquemisr.presentation.screen.details_screen.components.SecondTitle
-import banquemisr.presentation.screen.list_screen.ui.ListScreenIntent
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
 
@@ -208,7 +207,7 @@ fun DetailsScreen(viewModel: DetailsScreenViewModel) {
 
                 }
                 if (state.value.progressBarState is ProgressBarState.Loading) {
-                    CircularIndeterminateProgressBar()
+                    MovieLoadingIndicator()
                 }
             }
         }
