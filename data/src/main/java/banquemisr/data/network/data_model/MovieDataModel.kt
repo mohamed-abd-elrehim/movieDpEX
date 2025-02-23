@@ -1,11 +1,11 @@
-package banquemisr.data.network.mapper
+package banquemisr.data.network.data_model
 
 import banquemisr.data.network.constants.APIKeys
-import banquemisr.domain.model.Movie
+import banquemisr.domain.domain_model.MovieDomainModel
 import com.google.gson.annotations.SerializedName
 
 
-data class MovieDTO(
+data class MovieDataModel(
     val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String?,
     @SerializedName("genre_ids") val genreIds: List<Int>,
@@ -22,32 +22,23 @@ data class MovieDTO(
     @SerializedName("vote_count") val voteCount: Int
 )
 
-data class MovieDbResultDTO(
+data class MovieDbResultDataModel(
     val page: Int,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int,
-    val results: List<MovieDTO>
+    val results: List<MovieDataModel>
 )
 
 
-    fun MovieDTO.toMovie(): Movie {
-    return Movie(
+    fun MovieDataModel.toDomainModel(): MovieDomainModel {
+    return MovieDomainModel(
         id = this.id,
         title = this.title,
         posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
         releaseDate = this.releaseDate,
         voteAverage = this.voteAverage
-//        overview = this.overview,
-//        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",
-//        voteCount = this.voteCount,
-//        genreIds = this.genreIds,
-//        popularity = this.popularity,
-//        adult = this.adult,
-//        originalLanguage = this.originalLanguage,
-//        originalTitle = this.originalTitle,
-//        video = this.video
     )
 
 }
 
-fun List<MovieDTO>.toMovies(): List<Movie> = map { it.toMovie() }
+fun List<MovieDataModel>.toDomainModel(): List<MovieDomainModel> = map { it.toDomainModel() }

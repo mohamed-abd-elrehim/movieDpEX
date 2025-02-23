@@ -1,6 +1,5 @@
 package banquemisr.moviedp
 
-import banquemisr.moviedp.ui.theme.NavControllerHolder
 import banquemisr.presentation.navigation.MovieNavigation
 import javax.inject.Inject
 

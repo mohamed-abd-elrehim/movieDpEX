@@ -10,5 +10,6 @@
     <string name="production_companies">Production Companies</string>
     <string name="budget">Budget</string>
     <string name="star">Star</string>
+    <string name="error">Error</string>
 
 </resources>

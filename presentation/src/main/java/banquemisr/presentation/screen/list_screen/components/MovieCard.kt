@@ -27,15 +27,16 @@ import androidx.compose.ui.unit.sp
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.LoadAsyncImage
 import banquemisr.components.shared_components.MovieAppItem
-import banquemisr.domain.model.Movie
+import banquemisr.domain.domain_model.MovieDomainModel
 import banquemisr.presentation.R
+import banquemisr.presentation.screen.list_screen.ui.MovieUiModel
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
 import coil.ImageLoader
 
 @Composable
 fun MovieCard(
-    movie: Movie,
+    movie: MovieUiModel,
     imageLoader: ImageLoader,
     onClick: (Int) -> Unit = {},
     context: Context

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import banquemisr.components.shared_components.MovieAppItem
-import banquemisr.domain.model.MovieDetails
+import banquemisr.domain.domain_model.MovieDetailsDomainModel
 import banquemisr.presentation.R
 
 @Composable
-fun MovieDetailsRow(movieDetails: MovieDetails?) {
+fun MovieDetailsRow(movieDetails: MovieDetailsDomainModel?) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,

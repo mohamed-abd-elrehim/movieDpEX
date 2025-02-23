@@ -7,20 +7,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.PullToRefreshBox
-import banquemisr.core.domain.ProgressBarState
-import banquemisr.core.domain.UIComponent
+import banquemisr.presentation.R
+import banquemisr.presentation.UiState
 import banquemisr.presentation.screen.list_screen.components.MovieSection
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
@@ -30,7 +31,7 @@ import banquemisr.presentation.ui.theme.SecondaryColor
 @Composable
 fun ListScreen ( viewModel: ListScreenViewModel)
 {
-    val state = viewModel.state.collectAsState()
+    val state = viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     PullToRefreshBox(
         isRefreshing = state.value.isRefreshing,
@@ -57,54 +58,100 @@ fun ListScreen ( viewModel: ListScreenViewModel)
 
                 Gap(height = 10)
 
+                state.value.let { state ->
 
-                state.value.imageLoader?.let {
-                    MovieSection(title = "Upcoming", isHorizontal = true ,movies = state.value
-                        .upcomingMovies,context = context,imageLoader = it,
-                        onClick = {movieId->
-                            viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
+                    //upcomingMovies
+                    when (state.upcomingMovies) {
+                        is UiState.Loading -> {
+                            CircularIndeterminateProgressBar()
+                        }
+
+                        is UiState.Success -> {
+                            state.imageLoader?.let {
+                                MovieSection(title = "Upcoming", isHorizontal = true, movies =
+                                state.upcomingMovies.data, context = context, imageLoader = it,
+                                    onClick = { movieId ->
+                                        viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
+
+                                    }
+                                )
+                            }
+                        }
+
+                        is UiState.Error -> {
+                            AppAlertDialog(
+                                showDialog = true,
+                                title = stringResource(R.string.error),
+                                description = state.upcomingMovies.message,
+                                onRemoveHeadFromQueue = {
+                                    //viewModel.onIntent(ListScreenIntent
+                                    // .RemoveHeadMessageFromQueue)
+                                },
+                            )
 
                         }
-                    )
-                }
-                Gap(height = 10)
 
-                AppHorizontalDivider()
+                        is UiState.Idle -> {
 
-                Gap(height = 10)
 
-                state.value.imageLoader?.let {
-                    MovieSection(title = "Now Playing", isHorizontal = false, movies = state.value
-                        .nowPlayingMovies,context = context,imageLoader = it,
-                        onClick = {movieId->
-                            viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
                         }
-                    )
-                }
+                    }
 
-            }
-            if (state.value.errorQueue.isNotEmpty()) {
 
-                state.value.errorQueue.peek()?.let { uiComponent ->
-                    if (uiComponent is UIComponent.Dialog) {
-                        AppAlertDialog (
-                            showDialog = true,
-                            title = uiComponent.title,
-                            description = uiComponent.description,
-                            onRemoveHeadFromQueue = {
-                                viewModel.onIntent(ListScreenIntent.RemoveHeadMessageFromQueue)
-                            },
-                        )
 
+                    Gap(height = 10)
+
+                    AppHorizontalDivider()
+
+                    Gap(height = 10)
+
+                    //nowPlayingMovies
+                    when (state.nowPlayingMovies) {
+                        is UiState.Loading -> {
+                            CircularIndeterminateProgressBar()
+                        }
+
+                        is UiState.Success -> {
+                            state.imageLoader?.let {
+                                MovieSection(title = "Now Playing",
+                                    isHorizontal = false,
+                                    movies = state
+                                        .nowPlayingMovies.data,
+                                    context = context,
+                                    imageLoader = it,
+                                    onClick = { movieId ->
+                                        viewModel.onIntent(ListScreenIntent.MovieClicked(movieId = movieId))
+                                    }
+                                )
+                            }
+                        }
+
+                        is UiState.Error -> {
+                            AppAlertDialog(
+                                showDialog = true,
+                                title = stringResource(R.string.error),
+                                description = state.nowPlayingMovies.message,
+                                onRemoveHeadFromQueue = {
+                                    //viewModel.onIntent(ListScreenIntent
+                                    // .RemoveHeadMessageFromQueue)
+                                },
+                            )
+
+                        }
+
+                        is UiState.Idle -> {
+
+
+                        }
                     }
 
                 }
 
 
+
             }
-            if (state.value.progressBarState is ProgressBarState.Loading) {
-                CircularIndeterminateProgressBar()
-            }
+
+
         }
 
     )

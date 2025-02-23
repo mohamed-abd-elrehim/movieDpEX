@@ -1,6 +1,6 @@
 package banquemisr.moviedp.di
 
-import banquemisr.moviedp.ui.theme.NavControllerHolder
+import banquemisr.moviedp.NavControllerHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

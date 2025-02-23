@@ -1,10 +1,7 @@
 package banquemisr.domain.use_case.interactors
 
-import banquemisr.core.domain.DataState
-import banquemisr.core.domain.ProgressBarState
-import banquemisr.core.domain.UIComponent
-import banquemisr.core.util.app_exception.ExceptionHandler
-import banquemisr.domain.model.Movie
+import banquemisr.domain.domain_model.MovieDomainModel
+import banquemisr.domain.use_case.DomainState
 import banquemisr.domain.use_case.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,34 +11,11 @@ class FetchUpcomingMovies@Inject constructor(
     private val movieRepository: MovieRepository
 ) {
 
-    //في Kotlin، الكلمة operator fun invoke تسمح باستدعاء الكائن مباشرةً كما لو كان دالة، بينما suspend تجعل الدالة تعمل داخل الكوروتين (Coroutine).
      operator fun invoke(
-        sortBy: String, certificationCountry: String
-    ): Flow<DataState<List<Movie>>> = flow {
-        emit(DataState.Loading(progressBarState = ProgressBarState.Loading))
-        try {
-          movieRepository.fetchUpcomingMovies(
-                sortBy,
-                certificationCountry
-            ).collect {data->
-                emit(DataState.Data(data))
-            }
-        } catch (e: Exception) {
-            val exception = ExceptionHandler.handleException(e)
-            emit(
-                DataState.Response(
-                    uiComponent = UIComponent.Dialog(
-                        title = "Error",
-                        description = exception.message
-                    )
-                )
-            )
+    ): Flow<DomainState<List<MovieDomainModel>>> = flow {
 
-        } finally {
-            emit(DataState.Loading(progressBarState = ProgressBarState.Idle))
+        emit(movieRepository.fetchUpcomingMovies())
 
-        }
-
-    }
+     }
 
 }

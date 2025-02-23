@@ -9,12 +9,13 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.Gap
-import banquemisr.domain.model.Movie
+import banquemisr.domain.domain_model.MovieDomainModel
+import banquemisr.presentation.screen.list_screen.ui.MovieUiModel
 import coil.ImageLoader
 
 
 @Composable
-fun MovieSection(title: String, isHorizontal: Boolean, movies: List<Movie>, imageLoader:
+fun MovieSection(title: String, isHorizontal: Boolean, movies: List<MovieUiModel>, imageLoader:
 ImageLoader, context: Context, onClick: (Int) -> Unit = {}
 ) {
     MovieSectionTitle (title = title, isHorizontal = isHorizontal)

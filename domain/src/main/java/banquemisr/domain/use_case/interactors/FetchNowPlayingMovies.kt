@@ -1,11 +1,7 @@
 package banquemisr.domain.use_case.interactors
 
-import android.util.Log
-import banquemisr.core.domain.DataState
-import banquemisr.core.domain.ProgressBarState
-import banquemisr.core.domain.UIComponent
-import banquemisr.core.util.app_exception.ExceptionHandler
-import banquemisr.domain.model.Movie
+import banquemisr.domain.domain_model.MovieDomainModel
+import banquemisr.domain.use_case.DomainState
 import banquemisr.domain.use_case.MovieRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,32 +11,9 @@ class FetchNowPlayingMovies @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
 
-    operator fun invoke(
-        sortBy: String, certificationCountry: String
-    ): Flow<DataState<List<Movie>>> = flow {
-        Log.d("FetchNowPlayingMovies", "invoke: $sortBy, $certificationCountry")
-        emit(DataState.Loading(progressBarState = ProgressBarState.Loading))
-        try {
-          movieRepository.fetchNowPlayingMovies(
-                sortBy,
-                certificationCountry
-            ).collect { data->
-                emit(DataState.Data(data))
-            }
-        } catch (e: Exception) {
-            val exception = ExceptionHandler.handleException(e)
-            emit(
-                DataState.Response(
-                    uiComponent = UIComponent.Dialog(
-                        title = "Error",
-                        description = exception.message
-                    )
-                )
-            )
-        }finally {
-            emit(DataState.Loading(progressBarState = ProgressBarState.Idle))
-        }
+    operator fun invoke(): Flow<DomainState<List<MovieDomainModel>>> = flow {
 
+        emit(movieRepository.fetchNowPlayingMovies())
 
     }
 }

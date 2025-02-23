@@ -7,8 +7,10 @@ object APIKeys {
     // Init setup
     const val  MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/movie/"
     const val  MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
+    const val  MOVIEDB_API_KEY = "7396c8dfd064f9d442ae45269c103055"
 
-    const val MOVIEDB_API_KEY = "7396c8dfd064f9d442ae45269c103055"
+
+
 
 
     //Endpoints

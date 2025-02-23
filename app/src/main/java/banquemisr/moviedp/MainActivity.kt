@@ -18,9 +18,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import banquemisr.domain.use_case.MovieRepository
 import banquemisr.moviedp.ui.theme.MovieDpTheme
-import banquemisr.moviedp.ui.theme.NavControllerHolder
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreen
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreenViewModel
 import banquemisr.presentation.screen.list_screen.ui.ListScreen
@@ -31,8 +29,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    lateinit var movieRepository: MovieRepository
 
 
     @Inject lateinit var navControllerHolder: NavControllerHolder

@@ -1,12 +1,13 @@
 package banquemisr.domain.use_case
 
-import banquemisr.domain.model.Movie
-import banquemisr.domain.model.MovieDetails
-import kotlinx.coroutines.flow.Flow
+import banquemisr.domain.domain_model.MovieDomainModel
+import banquemisr.domain.domain_model.MovieDetailsDomainModel
 
 interface MovieRepository {
-    suspend fun fetchUpcomingMovies(sortBy: String, certificationCountry: String): Flow<List<Movie>>
-    suspend fun fetchNowPlayingMovies(sortBy: String, certificationCountry: String): Flow<List<Movie>>
-    suspend fun fetchMovieDetails(movieId: Int): Flow<MovieDetails>
+    suspend fun fetchUpcomingMovies():
+            DomainState<List<MovieDomainModel>>
+    suspend fun fetchNowPlayingMovies():
+            DomainState<List<MovieDomainModel>>
+    suspend fun fetchMovieDetails(movieId: Int): DomainState<MovieDetailsDomainModel>
 
 }

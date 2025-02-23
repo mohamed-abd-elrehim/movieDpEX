@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import banquemisr.components.shared_components.AppText
-import banquemisr.domain.model.MovieDetails
+import banquemisr.domain.domain_model.MovieDetailsDomainModel
 
 @Composable
 fun MovieHeader(
-    movieDetails: MovieDetails,
+    movieDetails: MovieDetailsDomainModel,
 ) {
 
 

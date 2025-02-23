@@ -1,4 +1,4 @@
-package banquemisr.moviedp.ui.theme
+package banquemisr.moviedp
 
 import androidx.navigation.NavController
 
