@@ -1,4 +1,4 @@
-package banquemisr.presentation.screen.details_screen.components
+package banquemisr.components.shared_components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.AppText
 
@@ -21,16 +22,25 @@ import banquemisr.components.shared_components.AppText
 
 
 @Composable
-fun MovieDetailItem(
+fun MovieAppItem(
+    rowModifier: Modifier = Modifier.padding(6.dp),
     image: Painter? = null,
     icon: ImageVector? = null,
     contentDescription: String,
-    text: String
+    text: String,
+    textColor: Color = Color.White.copy(alpha = 0.8f),
+    textStyle:TextStyle= MaterialTheme.typography.bodyLarge,
+    iconTint: Color = Color.White.copy(alpha = 0.8f),
+    iconModifier: Modifier = Modifier.size(25.dp)
+
+
 ) {
     Row(
-        modifier = Modifier.padding(6.dp),
+        modifier = Modifier
+            .then(rowModifier),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
+
     ) {
         image?.let {
             Image(
@@ -44,14 +54,14 @@ fun MovieDetailItem(
             Icon(
                 imageVector = it,
                 contentDescription = contentDescription,
-                tint = Color.White.copy(alpha = 0.8f),
-                modifier = Modifier.size(25.dp)
+                tint = iconTint,
+                modifier = iconModifier
             )
         }
         AppText(
             text = text,
-            color = Color.White.copy(alpha = 0.8f),
-            style = MaterialTheme.typography.bodyLarge
+            color = textColor,
+            style = textStyle
         )
     }
 }

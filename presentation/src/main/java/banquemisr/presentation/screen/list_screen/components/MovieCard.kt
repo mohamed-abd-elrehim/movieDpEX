@@ -4,33 +4,31 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.LoadAsyncImage
+import banquemisr.components.shared_components.MovieAppItem
 import banquemisr.domain.model.Movie
 import banquemisr.presentation.R
 import banquemisr.presentation.ui.theme.PrimaryColor
@@ -79,29 +77,25 @@ fun MovieCard(
                     .padding(3.dp)
             ){
 
-                Row (
-                    modifier = Modifier
+
+                MovieAppItem(
+                    rowModifier = Modifier
                         .align(Alignment.TopEnd)
                         .background(
                             SecondaryColor.copy(alpha = 0.7f),
                             RoundedCornerShape(15.dp)
                         )
                         .padding(10.dp),
-
-                    ){
-                    AppText(
+                    icon = Icons.Default.Star,
+                    contentDescription = stringResource(R.string.star),
                         text = String.format("%.1f", movie.voteAverage),
-                        color = PrimaryColor,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                    Icon(
-                        imageVector = Icons.Default.Star,
-                        contentDescription = "Star",
-                        tint = PrimaryColor,
-                        modifier = Modifier.size(20.dp)
+                    iconModifier = Modifier.size(20.dp),
+                    textColor = PrimaryColor,
+                    textStyle = MaterialTheme.typography.bodyMedium,
+                    iconTint = PrimaryColor
+
                     )
 
-                }
                 Column(
                     modifier = Modifier.align(Alignment.BottomStart)
                 ) {
@@ -113,14 +107,13 @@ fun MovieCard(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
-                    AppText(
-                        text = (stringResource(R.string.release_date, movie.releaseDate) ),
-                        color = Color.White.copy(alpha = 0.8f),
-                        style = MaterialTheme.typography.bodyMedium,
-                        textAlign = TextAlign.Center
 
-
+                    MovieAppItem(
+                        icon = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.release_date),
+                        text = movie.releaseDate
                     )
+
 
                 }
 

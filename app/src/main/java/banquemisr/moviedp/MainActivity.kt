@@ -2,7 +2,6 @@ package banquemisr.moviedp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.core.tween
@@ -14,8 +13,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -45,12 +42,7 @@ class MainActivity : ComponentActivity() {
 
 
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge(
-            statusBarStyle = SystemBarStyle.light(
-                Color.Black.toArgb(),
-                Color.Black.toArgb() // Light scrim for contrast
-            )
-        )
+        enableEdgeToEdge()
         setContent {
             MovieDpTheme {
 
@@ -133,3 +125,4 @@ fun NavGraphBuilder.addDetailsScreen(
         )
     }
 }
+
