@@ -28,7 +28,6 @@ import banquemisr.presentation.screen.list_screen.ui.ListScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @Inject
@@ -38,8 +37,6 @@ class MainActivity : ComponentActivity() {
     @Inject lateinit var navControllerHolder: NavControllerHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {

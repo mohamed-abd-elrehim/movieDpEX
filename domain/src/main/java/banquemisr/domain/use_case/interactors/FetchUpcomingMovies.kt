@@ -39,9 +39,3 @@ class FetchUpcomingMovies@Inject constructor(
 
         } finally {
             emit(DataState.Loading(progressBarState = ProgressBarState.Idle))
-
-        }
-
-    }
-
-}

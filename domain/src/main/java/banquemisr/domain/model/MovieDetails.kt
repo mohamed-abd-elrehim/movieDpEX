@@ -1,3 +1,4 @@
+
 package banquemisr.domain.model
 
 data class MovieDetails(
@@ -29,7 +30,6 @@ data class MovieDetails(
     val productionCountries: List<String>,
     val productionCompanies: List<Pair<String, String>>,
     val budget: Int,
-
 
     val posterPath: String?,
 )
