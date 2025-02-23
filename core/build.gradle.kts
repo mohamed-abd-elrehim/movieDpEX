@@ -1,4 +1,4 @@
-ext["namespace"] = "banquemisr.data"
+ext["namespace"] = "banquemisr.core"
 
 apply {
 
@@ -10,6 +10,6 @@ plugins {
 
 
 dependencies {
-    "implementation" (project(":domain"))
+
 
 }

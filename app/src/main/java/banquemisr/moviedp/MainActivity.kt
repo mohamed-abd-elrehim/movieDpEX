@@ -19,9 +19,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import banquemisr.domain.use_case.MovieRepository
-import androidx.compose.ui.tooling.preview.Preview
-import banquemisr.core.domain.DataState
-import banquemisr.domain.use_case.interactors.GetNowPlayingMovies
 import banquemisr.moviedp.ui.theme.MovieDpTheme
 import banquemisr.moviedp.ui.theme.NavControllerHolder
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreen
@@ -33,12 +30,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     @Inject
     lateinit var movieRepository: MovieRepository
 
 
     @Inject lateinit var navControllerHolder: NavControllerHolder
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,10 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieDpTheme {
 
-
-
-
-                    val navController = rememberNavController()
+                val navController = rememberNavController()
                 navControllerHolder.navController = navController
 
                 Box {
@@ -60,15 +54,13 @@ class MainActivity : ComponentActivity() {
                         startDestination = Screen.ListScreen.route,
                         modifier = Modifier
                             .fillMaxSize()
-
-                                .safeDrawingPadding(),
+                            .safeDrawingPadding(),
                         builder = {
-
-                                addListScreen()
+                            addListScreen()
                             addDetailsScreen()
                         }
                     )
-                        }
+                }
 
             }
         }
@@ -101,11 +93,12 @@ fun NavGraphBuilder.addListScreen(
         val listScreenViewModel: ListScreenViewModel = hiltViewModel()
 
         ListScreen(
-        viewModel = listScreenViewModel,
-            )
+            viewModel = listScreenViewModel,
+        )
 
-            }
-        }
+    }
+}
+
 fun NavGraphBuilder.addDetailsScreen(
 ) {
     composable(
