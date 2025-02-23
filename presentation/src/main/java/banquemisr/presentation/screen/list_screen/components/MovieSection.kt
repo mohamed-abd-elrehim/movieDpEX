@@ -38,6 +38,7 @@ ImageLoader, context: Context, onClick: (Int) -> Unit = {}
         }
     } else {
         LazyVerticalGrid(
+
             columns = GridCells.Fixed(2),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
