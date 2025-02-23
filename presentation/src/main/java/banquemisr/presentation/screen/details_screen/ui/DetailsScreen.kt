@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppIconButton
 import banquemisr.components.shared_components.AppText
@@ -32,6 +33,7 @@ import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.LoadAsyncImage
 import banquemisr.components.shared_components.PullToRefreshBox
 import banquemisr.core.domain.ProgressBarState
+import banquemisr.core.domain.UIComponent
 import banquemisr.presentation.R
 import banquemisr.presentation.screen.details_screen.components.MovieChipList
 import banquemisr.presentation.screen.details_screen.components.MovieDetailsRow
@@ -184,6 +186,25 @@ fun DetailsScreen(viewModel: DetailsScreenViewModel) {
 
 
                     }
+
+                }
+                if (state.value.errorQueue.isNotEmpty()) {
+
+                    state.value.errorQueue.peek()?.let { uiComponent ->
+                        if (uiComponent is UIComponent.Dialog) {
+                            AppAlertDialog (
+                                showDialog = true,
+                                title = uiComponent.title,
+                                description = uiComponent.description,
+                                onRemoveHeadFromQueue = {
+                                    viewModel.onIntent(DetailsScreenIntent.RemoveHeadMessageFromQueue)
+                                },
+                            )
+
+                        }
+
+                    }
+
 
                 }
                 if (state.value.progressBarState is ProgressBarState.Loading) {

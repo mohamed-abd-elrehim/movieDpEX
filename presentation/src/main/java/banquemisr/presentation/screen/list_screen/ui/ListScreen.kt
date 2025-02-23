@@ -13,12 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.PullToRefreshBox
 import banquemisr.core.domain.ProgressBarState
+import banquemisr.core.domain.UIComponent
 import banquemisr.presentation.screen.list_screen.components.MovieSection
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
@@ -37,10 +39,12 @@ fun ListScreen ( viewModel: ListScreenViewModel)
             viewModel.onIntent(ListScreenIntent.RefreshMovies)
         },
         content = {
+
             Column(
                 modifier = Modifier
                     .background(PrimaryColor)
                     .fillMaxSize()
+                    
                     .padding(10.dp)
             ) {
                 AppText(
@@ -79,7 +83,25 @@ fun ListScreen ( viewModel: ListScreenViewModel)
                 }
 
             }
+            if (state.value.errorQueue.isNotEmpty()) {
 
+                state.value.errorQueue.peek()?.let { uiComponent ->
+                    if (uiComponent is UIComponent.Dialog) {
+                        AppAlertDialog (
+                            showDialog = true,
+                            title = uiComponent.title,
+                            description = uiComponent.description,
+                            onRemoveHeadFromQueue = {
+                                viewModel.onIntent(ListScreenIntent.RemoveHeadMessageFromQueue)
+                            },
+                        )
+
+                    }
+
+                }
+
+
+            }
             if (state.value.progressBarState is ProgressBarState.Loading) {
                 CircularIndeterminateProgressBar()
             }

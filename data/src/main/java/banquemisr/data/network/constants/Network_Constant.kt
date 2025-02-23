@@ -9,8 +9,6 @@ object APIKeys {
     const val  MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
 
     const val MOVIEDB_API_KEY = "7396c8dfd064f9d442ae45269c103055"
-    const val MOVIEDB_ACCESS_TOKEN ="eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3Mzk2YzhkZmQwNjRmOWQ0NDJhZTQ1MjY5YzEwMzA1NSIsIm5iZiI6MTcyOTE5MTM4Ny40MDY0NzMsInN1YiI6IjY3MTE1NmJkYTJjZmUxMjVmYjk2MGE3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.t-4CPL0jH91yLcsq5KbbGWEcjtYs6iJMmOnMRJ8lRT4"
-    const val AUTHORIZATION =  "Authorization"
 
 
     //Endpoints

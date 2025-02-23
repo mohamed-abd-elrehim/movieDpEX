@@ -6,5 +6,6 @@ sealed class ListScreenIntent {
 
     object RefreshMovies : ListScreenIntent()  // User pulls to refresh
     data class MovieClicked(val movieId: Int) : ListScreenIntent()  // User clicks a movie (UI event)
+    object RemoveHeadMessageFromQueue: ListScreenIntent()
 
 }

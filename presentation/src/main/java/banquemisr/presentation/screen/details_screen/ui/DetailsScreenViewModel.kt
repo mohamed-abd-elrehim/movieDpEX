@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.ProgressBarState
+import banquemisr.core.domain.Queue
 import banquemisr.core.domain.UIComponent
 import banquemisr.core.util.Logger
 import banquemisr.domain.use_case.interactors.FetchMovieDetails
@@ -50,6 +51,7 @@ class DetailsScreenViewModel @Inject constructor(
             is DetailsScreenIntent.LoadMovieDetails -> fetchMovie(intent.movieID)
             is DetailsScreenIntent.RefreshMovieDetails -> onPageRefresh()
             is DetailsScreenIntent.BackButtonClicked -> onEvent(DetailsScreenEvent.NavigateBackToListScreen)
+            is DetailsScreenIntent.RemoveHeadMessageFromQueue -> removeHeadMessage()
         }
     }
 
@@ -111,7 +113,7 @@ class DetailsScreenViewModel @Inject constructor(
         when (uiComponent) {
             is UIComponent.Dialog -> {
                 uiComponent.description?.let {
-                    logger.log(it)
+                    uiComponent.description?.let { appendToMessageQueue (uiComponent) }
 
                 }
 
@@ -127,5 +129,28 @@ class DetailsScreenViewModel @Inject constructor(
         }
     }
 
+    private fun appendToMessageQueue(uiComponent: UIComponent){
+        val queue = _state.value.errorQueue
+        queue.add(uiComponent)
+        _state.value = _state.value.copy(errorQueue = queue)
+    }
+
+    private fun removeHeadMessage() {
+        try {
+            val queue = _state.value.errorQueue
+            queue.poll() // remove first item
+
+            // Create a new Queue instance to trigger recomposition
+            val newQueue = Queue(queue.items.toMutableList())
+
+            _state.value = _state.value.copy(
+                errorQueue = newQueue,  // Assign a new reference
+                alertDialogState =  _state.value.errorQueue.isNotEmpty())
+
+            logger.log("Head message removed ${_state.value.errorQueue} ${_state.value.alertDialogState}")
+        } catch (e: Exception) {
+            logger.log("Nothing to remove from DialogQueue")
+        }
+    }
 
 }
