@@ -13,6 +13,7 @@ import banquemisr.presentation.navigation.NavBack
 import coil.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -86,7 +87,19 @@ class DetailsScreenViewModel @Inject constructor(
 
     private fun onPageRefresh() {
 
+        savedStateHandle.get<Int>("movieId").let { movieId ->
+            if (movieId != null) {
+                _state.value = _state.value.copy(isRefreshing = true)
+                viewModelScope.launch(Dispatchers.IO) {
+                    onIntent(DetailsScreenIntent.LoadMovieDetails(movieId))
+                    delay(1000)
+                    _state.value = _state.value.copy(isRefreshing = false)
+                }
+            } else {
+                logger.log("heroId is null")
+            }
 
+        }
     }
 
     private fun onButtonClicked() {

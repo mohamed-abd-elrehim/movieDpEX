@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import banquemisr.components.shared_components.AppHorizontalDivider
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
@@ -62,7 +63,9 @@ fun ListScreen ( viewModel: ListScreenViewModel)
                         }
                     )
                 }
+                Gap(height = 10)
 
+                AppHorizontalDivider()
 
                 Gap(height = 10)
 
