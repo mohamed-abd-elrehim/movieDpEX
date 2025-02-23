@@ -36,12 +36,12 @@ fun MovieDetailsSecondRow(movieDetails: MovieDetails?) {
             contentDescription = stringResource(R.string.release_date),
             text = movieDetails?.releaseDate ?: ""
         )
-        if (movieDetails?.budget != null && movieDetails?.budget != 0) {
+        if (movieDetails?.budget != null && movieDetails.budget != 0) {
             //  budget
             MovieAppItem(
                 image = painterResource(id = R.drawable.budget),
                 contentDescription = stringResource(R.string.budget),
-                text = formatBudget(movieDetails?.budget ?: 0)
+                text = formatBudget(movieDetails.budget )
             )
         }
 

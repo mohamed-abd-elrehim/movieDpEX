@@ -2,7 +2,6 @@ package banquemisr.presentation.screen.list_screen.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.Queue
 import banquemisr.core.domain.UIComponent

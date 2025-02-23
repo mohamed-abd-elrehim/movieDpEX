@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -57,8 +56,8 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .safeDrawingPadding(),
                         builder = {
-                            addListScreen(navController)
-                            addDetailsScreen(navController)
+                            addListScreen()
+                            addDetailsScreen()
                         }
                     )
                 }
@@ -73,7 +72,6 @@ class MainActivity : ComponentActivity() {
 }
 
 fun NavGraphBuilder.addListScreen(
-    navController: NavController
 ) {
     composable(
         route = Screen.ListScreen.route,
@@ -102,7 +100,6 @@ fun NavGraphBuilder.addListScreen(
 }
 
 fun NavGraphBuilder.addDetailsScreen(
-    navController: NavController
 ) {
     composable(
         route = Screen.DetailsScreen.route + "/{movieId}",

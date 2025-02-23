@@ -14,7 +14,7 @@ fun MovieHeader(
 
 
     AppText(
-        text = movieDetails.title ?: "Movie Title",
+        text = movieDetails.title,
         color = Color.White,
         style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
     )

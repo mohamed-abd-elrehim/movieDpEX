@@ -1,9 +1,7 @@
 package banquemisr.data.network.mapper
 
 import banquemisr.data.network.constants.APIKeys
-import banquemisr.domain.model.CollectionInfo
 import banquemisr.domain.model.MovieDetails
-import banquemisr.domain.model.SpokenLanguage
 import com.google.gson.annotations.SerializedName
 data class MovieDetailsDTO(
     val adult: Boolean,
@@ -65,41 +63,32 @@ data class SpokenLanguageDTO(
 )
 fun MovieDetailsDTO.toMovieDetails(): MovieDetails {
     return MovieDetails(
-        adult = this.adult,
         posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
-        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",  belongsToCollection = this.belongsToCollection?.toCollectionInfo(),
+        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",
         budget = this.budget,
         genres = this.genres.toGenreNames(),
-        homepage = this.homepage,
         id = this.id,
-        imdbId = this.imdbId,
-        originCountry = this.originCountry,
-        originalLanguage = this.originalLanguage,
-        originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
         productionCompanies = this.productionCompanies.toProductionCompanyNames(),
-
-
         productionCountries = this.productionCountries.toProductionCountriesNames() ,
         releaseDate = this.releaseDate,
-        revenue = this.revenue,
         runtime = this.runtime,
-        spokenLanguages = this.spokenLanguages.map { it.toSpokenLanguage() },
-        status = this.status,
         tagline = this.tagline,
         title = this.title,
-        video = this.video,
         voteAverage = this.voteAverage,
         voteCount = this.voteCount
-    )
-}
-fun CollectionInfoDTO.toCollectionInfo(): CollectionInfo {
-    return CollectionInfo(
-        id = this.id,
-        name = this.name,
-        posterPath = this.posterPath,
-        backdropPath = this.backdropPath
+//        adult = this.adult,
+//        belongsToCollection = this.belongsToCollection?.toCollectionInfo(),
+//        homepage = this.homepage,
+//        imdbId = this.imdbId,
+//        originCountry = this.originCountry,
+//        originalLanguage = this.originalLanguage,
+//        originalTitle = this.originalTitle,
+//        spokenLanguages = this.spokenLanguages.map { it.toSpokenLanguage() },
+//        status = this.status,
+//        revenue = this.revenue,
+//        video = this.video,
     )
 }
 
@@ -113,13 +102,21 @@ fun List<ProductionCompanyDTO>.toProductionCompanyNames(): List<Pair<String, Str
     return this.map { Pair(it.name, "${APIKeys.MOVIEDB_IMAGE_URL}${it.logoPath}") }
 }
 
-
-
-fun SpokenLanguageDTO.toSpokenLanguage(): SpokenLanguage {
-    return SpokenLanguage(
-        englishName = this.englishName,
-        isoCode = this.isoCode,
-        name = this.name
-    )
-}
+//
+//fun CollectionInfoDTO.toCollectionInfo(): CollectionInfo {
+//    return CollectionInfo(
+//        id = this.id,
+//        name = this.name,
+//        posterPath = this.posterPath,
+//        backdropPath = this.backdropPath
+//    )
+//}
+//
+//fun SpokenLanguageDTO.toSpokenLanguage(): SpokenLanguage {
+//    return SpokenLanguage(
+//        englishName = this.englishName,
+//        isoCode = this.isoCode,
+//        name = this.name
+//    )
+//}
 

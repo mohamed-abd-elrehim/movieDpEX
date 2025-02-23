@@ -1,6 +1,5 @@
 package banquemisr.domain.use_case.interactors
 
-import android.content.res.Resources.NotFoundException
 import banquemisr.core.domain.DataState
 import banquemisr.core.domain.ProgressBarState
 import banquemisr.core.domain.UIComponent
