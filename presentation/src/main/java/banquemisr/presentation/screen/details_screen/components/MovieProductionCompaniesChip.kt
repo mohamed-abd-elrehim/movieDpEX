@@ -1,7 +1,6 @@
 package banquemisr.presentation.screen.details_screen.components
 
 import android.content.Context
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -13,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.AppText
 import banquemisr.components.shared_components.LoadAsyncImage
 import coil.ImageLoader
-import com.google.android.material.chip.Chip
 
 @Composable
 fun MovieProductionCompaniesChip(productionCompanie: Pair<String,String>, chipColor:Color ,

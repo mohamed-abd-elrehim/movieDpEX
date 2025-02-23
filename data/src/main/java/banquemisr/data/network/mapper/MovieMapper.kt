@@ -34,17 +34,18 @@ data class MovieDbResultDTO(
     return Movie(
         id = this.id,
         title = this.title,
-        overview = this.overview,
         posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
-        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",  releaseDate = this.releaseDate,
-        voteAverage = this.voteAverage,
-        voteCount = this.voteCount,
-        genreIds = this.genreIds,
-        popularity = this.popularity,
-        adult = this.adult,
-        originalLanguage = this.originalLanguage,
-        originalTitle = this.originalTitle,
-        video = this.video
+        releaseDate = this.releaseDate,
+        voteAverage = this.voteAverage
+//        overview = this.overview,
+//        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",
+//        voteCount = this.voteCount,
+//        genreIds = this.genreIds,
+//        popularity = this.popularity,
+//        adult = this.adult,
+//        originalLanguage = this.originalLanguage,
+//        originalTitle = this.originalTitle,
+//        video = this.video
     )
 
 }

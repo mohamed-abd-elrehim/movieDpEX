@@ -19,11 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import banquemisr.components.shared_components.AppText
@@ -121,29 +119,3 @@ fun MovieCard(
         }
     }
 }
-@Composable
-@Preview
-fun MovieCardPreview() {
-    MovieCard(
-        movie = Movie(
-            id = 1,
-            title = "Movie Title",
-            overview = "Movie overview",
-            posterPath = "https://image.tmdb.org/t/p/w500/poster_path.jpg",
-            backdropPath = "https://image.tmdb.org/t/p/w500/backdrop_path.jpg",
-            releaseDate = "2023-07-01",
-            voteAverage = 8.5,
-            voteCount = 1000,
-            genreIds = listOf(1, 2, 3),
-            popularity = 7.8,
-            adult = false,
-            originalLanguage = "en",
-            originalTitle = "Original Title",
-
-            video = false
-        ),
-        imageLoader = ImageLoader.Builder(LocalContext.current).build(),
-        context = LocalContext.current
-    )
-}
-
