@@ -1,3 +1,4 @@
+
 package banquemisr.data.network.mapper
 
 import banquemisr.data.network.constants.APIKeys
@@ -119,4 +120,3 @@ fun List<ProductionCompanyDTO>.toProductionCompanyNames(): List<Pair<String, Str
 //        name = this.name
 //    )
 //}
-

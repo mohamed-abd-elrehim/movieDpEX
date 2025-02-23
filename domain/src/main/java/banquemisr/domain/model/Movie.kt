@@ -1,5 +1,3 @@
-package banquemisr.domain.model
-
 
 
 data class Movie(
