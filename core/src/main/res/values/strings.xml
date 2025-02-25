@@ -1,0 +1,12 @@
+<resources>
+    <string name="error_bad_request">Bad Request</string>
+    <string name="error_unauthorized">Unauthorized</string>
+    <string name="error_forbidden">Forbidden</string>
+    <string name="error_not_found">Not Found</string>
+    <string name="error_request_timeout">Request Timeout</string>
+    <string name="error_too_many_requests">Too Many Requests</string>
+    <string name="error_internal_server">Internal Server Error</string>
+    <string name="error_service_unavailable">Service Unavailable</string>
+    <string name="error_generic">Something went wrong</string>
+    <string name="error_network">No internet connection</string>
+</resources>
