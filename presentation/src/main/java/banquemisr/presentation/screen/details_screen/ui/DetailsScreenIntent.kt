@@ -6,5 +6,12 @@ sealed class DetailsScreenIntent {
     object RefreshMovieDetails : DetailsScreenIntent()
     object BackButtonClicked : DetailsScreenIntent()
 
+    object DismissAlertDialog : DetailsScreenIntent()
+    object ShownAlertDialog: DetailsScreenIntent()
+
+    object IsMovieIDNull : DetailsScreenIntent()
+    object DismissError : DetailsScreenIntent()
+
+
 
 }

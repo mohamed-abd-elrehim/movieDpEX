@@ -1,6 +1,6 @@
 package banquemisr.data.network.data_model
 
-import banquemisr.data.network.constants.APIKeys
+import banquemisr.data.BuildConfig
 import banquemisr.domain.domain_model.MovieDetailsDomainModel
 import com.google.gson.annotations.SerializedName
 data class MovieDetailsDataModel(
@@ -63,8 +63,8 @@ data class SpokenLanguageDataModel(
 )
 fun MovieDetailsDataModel.toDomainModel(): MovieDetailsDomainModel {
     return MovieDetailsDomainModel(
-        posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
-        backdropPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.backdropPath}",
+        posterPath = "${BuildConfig.MOVIEDB_IMAGE_URL}${this.posterPath}",
+        backdropPath = "${BuildConfig.MOVIEDB_IMAGE_URL}${this.backdropPath}",
         budget = this.budget,
         genres = this.genres.toGenreNames(),
         id = this.id,
@@ -88,5 +88,5 @@ fun List<ProductionCountryDataModel>.toProductionCountriesNames(): List<String> 
     return this.map { it.name }
 }
 fun List<ProductionCompanyDataModel>.toProductionCompanyNames(): List<Pair<String, String>> {
-    return this.map { Pair(it.name, "${APIKeys.MOVIEDB_IMAGE_URL}${it.logoPath}") }
+    return this.map { Pair(it.name, "${BuildConfig.MOVIEDB_IMAGE_URL}${it.logoPath}") }
 }

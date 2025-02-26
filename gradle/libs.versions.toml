@@ -16,7 +16,7 @@ lottieVersion="6.6.2"
 
 kotlinxcoroutines="1.9.0"
 coil ="2.7.0"
-hilt-dagger="2.52"
+hilt-dagger="2.51.1"
 androidx-hilt ="1.2.0"
 nav_version = "2.8.7"
 retrofit="2.11.0"

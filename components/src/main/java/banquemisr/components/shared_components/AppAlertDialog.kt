@@ -8,31 +8,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import banquemisr.components.ui.theme.PrimaryColor
 import banquemisr.components.ui.theme.SecondaryColor
 
-
 @Composable
 fun AppAlertDialog(
+    onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
     title: String,
-    showDialog: Boolean,
     description: String? = null,
-    onRemoveHeadFromQueue: () -> Unit,
+    isShowDialog: Boolean = false,
 ) {
-    if (!showDialog) return
-
-    AppDialog(
-        showDialog = showDialog,
-        modifier = modifier.padding(0.dp),
-        onDismiss = onRemoveHeadFromQueue,
-        content = {
+    if (!isShowDialog) return
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Surface(
+            modifier = modifier.clip(RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp
+        ) {
             Column(
                 modifier = Modifier
                     .padding(16.dp)
@@ -44,7 +45,7 @@ fun AppAlertDialog(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    AppText(
+                    Text(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall
                     )
@@ -60,7 +61,7 @@ fun AppAlertDialog(
                             )
                             .size(50.dp)
                             .padding(5.dp),
-                        onClick =  onRemoveHeadFromQueue,
+                        onClick = { onDismissRequest() },
                     )
                 }
 
@@ -73,8 +74,6 @@ fun AppAlertDialog(
                 }
             }
         }
-
-    )
-
+    }
 }
 

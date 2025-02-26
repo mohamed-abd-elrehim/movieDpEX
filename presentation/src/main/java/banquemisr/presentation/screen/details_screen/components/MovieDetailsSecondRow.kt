@@ -12,11 +12,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.MovieAppItem
-import banquemisr.domain.domain_model.MovieDetailsDomainModel
 import banquemisr.presentation.R
+import banquemisr.presentation.screen.details_screen.ui.MovieDetailsUiModel
 
 @Composable
-fun MovieDetailsSecondRow(movieDetails: MovieDetailsDomainModel?) {
+fun MovieDetailsSecondRow(movieDetails: MovieDetailsUiModel?) {
     Row(
         modifier = Modifier,
         verticalAlignment = Alignment.CenterVertically,

@@ -1,8 +1,8 @@
 package banquemisr.data.di
 
+import banquemisr.data.BuildConfig
 import banquemisr.data.network.api.MovieDbAPIServices
-import banquemisr.data.network.constants.APIKeys
-
+import banquemisr.data.network.constants.ApiEndPoints
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +40,7 @@ object NetworkModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return  Retrofit.Builder()
-            .baseUrl(APIKeys.MOVIEDB_BASE_URL) //  Set the base URL
+            .baseUrl(BuildConfig.MOVIEDB_BASE_URL) //  Set the base URL
             .addConverterFactory(GsonConverterFactory.create()) // Convert JSON responses
             .client(okHttpClient) // Attach OkHttpClient
             .build()
@@ -68,7 +68,7 @@ object NetworkModule {
         return Interceptor { chain ->
             val original = chain.request()
             val movieUrl = original.url.newBuilder()
-                .addQueryParameter(APIKeys.APIKey, APIKeys.MOVIEDB_API_KEY)
+                .addQueryParameter(ApiEndPoints.API_KEY, BuildConfig.MOVIEDB_API_KEY)
                 .build()
             val request = original.newBuilder().url(movieUrl).build()
             chain.proceed(request)

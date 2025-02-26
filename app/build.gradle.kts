@@ -19,6 +19,8 @@ android {
 
 dependencies {
     "implementation"(project(":presentation"))
+    "implementation"(project(":data"))
+    "implementation"(project(":domain"))
 }
 
 

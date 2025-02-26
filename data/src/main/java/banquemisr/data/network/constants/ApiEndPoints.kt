@@ -1,17 +1,7 @@
 package banquemisr.data.network.constants
 
 
-object APIKeys {
-
-
-    // Init setup
-    const val  MOVIEDB_BASE_URL = "https://api.themoviedb.org/3/movie/"
-    const val  MOVIEDB_IMAGE_URL = "https://image.tmdb.org/t/p/w500"
-    const val  MOVIEDB_API_KEY = "7396c8dfd064f9d442ae45269c103055"
-
-
-
-
+object ApiEndPoints {
 
     //Endpoints
     const val GET_UPCOMING_MOVIES_ENDPOINT = "upcoming"
@@ -21,9 +11,10 @@ object APIKeys {
 
     //EndPoints Params
     const val MOVIE_ID_PARAM = "movie_id"
-    const val APIKey = "api_key"
+    const val API_KEY = "api_key"
     const val SORT_BY = "sort_by"
     const val CERTIFICATION_COUNTRY = "certification_country"
+
 
     //EndPoints Params values
     const val SORT_BY_VALUE = "popularity.desc"

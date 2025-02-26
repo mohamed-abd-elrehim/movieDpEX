@@ -3,7 +3,7 @@ package banquemisr.domain.use_case
 import banquemisr.domain.domain_model.MovieDomainModel
 import banquemisr.domain.domain_model.MovieDetailsDomainModel
 
-interface MovieRepository {
+interface IMovieRepository {
     suspend fun fetchUpcomingMovies():
             DomainState<List<MovieDomainModel>>
     suspend fun fetchNowPlayingMovies():

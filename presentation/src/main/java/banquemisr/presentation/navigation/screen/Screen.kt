@@ -1,4 +1,4 @@
-package banquemisr.moviedp
+package banquemisr.presentation.navigation.screen
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
@@ -9,14 +9,14 @@ sealed class Screen (
     val arguments:List<NamedNavArgument>
 ){
     object ListScreen : Screen(
-        route = "ListScreen",
+        route = NavigationKeys.LIST_SCREEN,
         arguments = emptyList()
     )
 
     object DetailsScreen : Screen(
-        route = "DetailsScreen",
+        route = NavigationKeys.DETAILS_SCREEN,
         arguments = listOf(
-            navArgument("movieId"){
+            navArgument(NavigationKeys.MOVIE_ID){
                 type = NavType.IntType
             }
         )

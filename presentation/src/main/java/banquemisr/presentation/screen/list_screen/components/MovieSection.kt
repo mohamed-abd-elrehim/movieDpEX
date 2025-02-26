@@ -9,8 +9,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.Gap
-import banquemisr.domain.domain_model.MovieDomainModel
-import banquemisr.presentation.screen.list_screen.ui.MovieUiModel
+import banquemisr.presentation.screen.list_screen.model.MovieUiModel
 import coil.ImageLoader
 
 

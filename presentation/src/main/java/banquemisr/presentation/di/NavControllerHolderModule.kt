@@ -1,6 +1,6 @@
-package banquemisr.moviedp.di
+package banquemisr.presentation.di
 
-import banquemisr.moviedp.NavControllerHolder
+import banquemisr.presentation.navigation.NavControllerHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,8 @@ import javax.inject.Singleton
  object NavControllerHolderModule {
     @Provides
     @Singleton
-    fun provideNavControllerHolder(): NavControllerHolder = NavControllerHolder()
-
+    fun provideNavControllerHolder(): NavControllerHolder {
+        return NavControllerHolder
+    }
 
 }

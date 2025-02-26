@@ -3,19 +3,23 @@ package banquemisr.presentation.screen.list_screen.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import banquemisr.domain.domain_model.MovieDomainModel
 import banquemisr.domain.use_case.DomainState
 import banquemisr.domain.use_case.interactors.FetchNowPlayingMovies
 import banquemisr.domain.use_case.interactors.FetchUpcomingMovies
 import banquemisr.presentation.UiState
 import banquemisr.presentation.navigation.NavToDetailsScreen
+import banquemisr.presentation.screen.list_screen.model.MovieUiModel
+import banquemisr.presentation.screen.list_screen.model.toUiModel
 import coil.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,11 +42,26 @@ class ListScreenViewModel @Inject constructor(
 
     fun onIntent(intent: ListScreenIntent) {
         when (intent) {
-            is ListScreenIntent.LoadMovies -> fetchMovies()
+            is ListScreenIntent.LoadMovies -> fetchAllMovies()
             is ListScreenIntent.RefreshMovies -> onPageRefresh()
             is ListScreenIntent.MovieClicked -> onEvent(ListScreenEvent.NavigateToMovieDetails(intent.movieId))
 
 
+            is ListScreenIntent.ShowUpcomingError -> _state.update {
+                it.copy(isUpcomingError = true)
+            }
+
+            is ListScreenIntent.ShowNowPlayingError -> _state.update {
+                it.copy(isNowPlayingError = true)
+            }
+
+            is ListScreenIntent.DismissUpcomingError -> _state.update {
+                it.copy(isUpcomingError = false)
+            }
+
+            is ListScreenIntent.DismissNowPlayingError -> _state.update {
+                it.copy(isNowPlayingError = false)
+            }
         }
 
     }
@@ -53,69 +72,47 @@ class ListScreenViewModel @Inject constructor(
         }
     }
 
+    private fun fetchAllMovies() {
+        viewModelScope.launch {
+            launch {
+                fetchMovies(
+                    fetchFunction = { fetchUpcomingMovies() },
+                    updateState = { newState -> _state.update { it.copy(upcomingMovies = newState) } },
+                    onError = {onIntent(ListScreenIntent.ShowUpcomingError) }
+                )
+            }
 
-    private fun fetchMovies() {
-        fetchNowPlaying()
-        fetchUpcoming()
-
-
+            launch {
+                fetchMovies(
+                    fetchFunction = { fetchNowPlayingMovies() },
+                    updateState = { newState -> _state.update { it.copy(nowPlayingMovies = newState) } },
+                    onError = { onIntent(ListScreenIntent.ShowNowPlayingError) }
+                )
+            }
+        }
     }
+    private fun fetchMovies(
+        fetchFunction: suspend () -> Flow<DomainState<List<MovieDomainModel>>>,
+        updateState: (UiState<List<MovieUiModel>>) -> Unit,
+        onError: () -> Unit
 
-
-
-    private fun fetchUpcoming() {
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            fetchUpcomingMovies().onStart {
-                _state.value = _state.value.copy(upcomingMovies = UiState.Loading)
-
-            }.onCompletion {
-                _state.value = _state.value.copy(upcomingMovies = UiState.Idle)
+            fetchFunction().onStart {
+                updateState(UiState.Loading)
             }.collect { dataState ->
-                when (dataState) {
-                    is DomainState.Success -> {
-                        _state.value =
-                            _state.value.copy(upcomingMovies = UiState.Success((dataState.data)
-                                .toUiModel()))
+                val newState = when (dataState) {
+                    is DomainState.Success -> UiState.Success(dataState.data.toUiModel())
+                    is DomainState.Error ->{
+                        onError()
+                        UiState.Error(dataState.message)
                     }
-
-                    is DomainState.Error -> {
-                        _state.value =
-                            _state.value.copy(upcomingMovies = UiState.Error(dataState.message))
-
-                    }
-
-
                 }
+                updateState(newState)
             }
         }
     }
 
-
-    private fun fetchNowPlaying() {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            fetchNowPlayingMovies().onStart {
-                _state.value = _state.value.copy(nowPlayingMovies = UiState.Loading)
-
-            }.onCompletion {
-                _state.value = _state.value.copy(nowPlayingMovies = UiState.Idle)
-            }.collect { dataState ->
-                when (dataState) {
-                    is DomainState.Success -> {
-                        _state.value =
-                            _state.value.copy(nowPlayingMovies = UiState.Success((dataState.data)
-                                .toUiModel()))
-                    }
-
-                    is DomainState.Error -> {
-                        _state.value =
-                            _state.value.copy(nowPlayingMovies = UiState.Error(dataState.message))
-                    }
-                }
-
-            }
-        }
-    }
 
 
     private fun onPageRefresh() {

@@ -1,6 +1,6 @@
 package banquemisr.data.network.data_model
 
-import banquemisr.data.network.constants.APIKeys
+import banquemisr.data.BuildConfig
 import banquemisr.domain.domain_model.MovieDomainModel
 import com.google.gson.annotations.SerializedName
 
@@ -34,7 +34,7 @@ data class MovieDbResultDataModel(
     return MovieDomainModel(
         id = this.id,
         title = this.title,
-        posterPath = "${APIKeys.MOVIEDB_IMAGE_URL}${this.posterPath}",
+        posterPath = "${BuildConfig.MOVIEDB_IMAGE_URL}${this.posterPath}",
         releaseDate = this.releaseDate,
         voteAverage = this.voteAverage
     )

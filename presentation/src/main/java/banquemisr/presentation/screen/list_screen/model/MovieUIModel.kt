@@ -1,4 +1,4 @@
-package banquemisr.presentation.screen.list_screen.ui
+package banquemisr.presentation.screen.list_screen.model
 
 import banquemisr.domain.domain_model.MovieDomainModel
 

@@ -8,24 +8,24 @@ import banquemisr.data.network.data_model.MovieDetailsDataModel
 import retrofit2.Response
 import javax.inject.Inject
 
-class MovieRemoteDataSource @Inject constructor(
+class MovieRemoteDataSourceImpl @Inject constructor(
     private val apiService: MovieDbAPIServices
-) {
-    suspend fun getUpcomingMovies(
-    ): DataState<MovieDbResultDataModel> {
+) : IMovieRemoteDataSource {
+
+
+    override suspend fun fetchUpcomingMovies(): DataState<MovieDbResultDataModel> {
         return handleApiCall {
             apiService.fetchUpcomingMovies()
         }
     }
 
-    suspend fun getNowPlayingMovies(
-    ): DataState<MovieDbResultDataModel> {
+    override suspend fun fetchNowPlayingMovies(): DataState<MovieDbResultDataModel> {
         return handleApiCall {
             apiService.fetchNowPlayingMovies()
         }
     }
 
-    suspend fun getMovieDetails(movieId: Int): DataState<MovieDetailsDataModel> {
+    override suspend fun fetchMovieDetails(movieId: Int): DataState<MovieDetailsDataModel> {
         return handleApiCall {
             apiService.fetchMovieDetails(movieId)
         }

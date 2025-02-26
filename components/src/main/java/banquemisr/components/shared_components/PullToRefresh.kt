@@ -12,12 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 
-/*
-Why Use rememberPullToRefreshState()?
-State Management: It keeps track of the pull-to-refresh state, ensuring UI updates correctly when a refresh is triggered.
-Recomposition Optimization: Since it is remembered using remember, it persists across recompositions, avoiding unnecessary re-creation.
-Integration with UI: It's commonly used with PullToRefreshIndicator or similar components to show a loading spinner when refreshing.
- */
+
 @Composable
 @ExperimentalMaterial3Api
 fun PullToRefreshBox(

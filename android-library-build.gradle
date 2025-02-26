@@ -1,7 +1,7 @@
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.google.dagger.hilt.android'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 android {
