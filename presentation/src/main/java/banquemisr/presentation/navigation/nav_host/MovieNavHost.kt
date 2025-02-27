@@ -7,27 +7,19 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import banquemisr.presentation.navigation.NavControllerHolder
 import banquemisr.presentation.navigation.screen.NavigationKeys
 import banquemisr.presentation.navigation.screen.Screen
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreen
-import banquemisr.presentation.screen.details_screen.ui.DetailsScreenViewModel
 import banquemisr.presentation.screen.list_screen.ui.ListScreen
-import banquemisr.presentation.screen.list_screen.ui.ListScreenViewModel
 
 @Composable
 fun MovieNavHost (navController: NavHostController) {
     
-    LaunchedEffect(Unit) {
-        NavControllerHolder.navController = navController
-    }
 
 
     NavHost(
@@ -37,13 +29,18 @@ fun MovieNavHost (navController: NavHostController) {
             .fillMaxSize()
             .safeDrawingPadding(),
         builder = {
-            addListScreen()
-            addDetailsScreen()
+            addListScreen(
+                navController = navController
+            )
+            addDetailsScreen(
+                navController = navController
+            )
         }
     )
 }
 
 fun NavGraphBuilder.addListScreen(
+    navController: NavHostController
 ) {
     composable(
         route = Screen.ListScreen.route,
@@ -62,16 +59,17 @@ fun NavGraphBuilder.addListScreen(
 
         }
     ) {
-        val listScreenViewModel: ListScreenViewModel = hiltViewModel()
 
-        ListScreen(
-            viewModel = listScreenViewModel,
+        ListScreen(onMovieClick = { movieId ->
+            navController.navigate(Screen.DetailsScreen.route + "/$movieId")
+        }
         )
 
     }
 }
 
 fun NavGraphBuilder.addDetailsScreen(
+    navController: NavHostController
 ) {
     composable(
         route = Screen.DetailsScreen.route + "/{${NavigationKeys.MOVIE_ID}}",
@@ -88,11 +86,17 @@ fun NavGraphBuilder.addDetailsScreen(
                 animationSpec = tween(300)
             ) + fadeOut(animationSpec = tween(300))
         }
-    ) {
-        val detailsScreenViewModel: DetailsScreenViewModel = hiltViewModel()
-        DetailsScreen(
-            viewModel = detailsScreenViewModel
-        )
+    ) { backStackEntry ->
+        //must not send view model her due to recomposition
+        //val detailsScreenViewModel: DetailsScreenViewModel = hiltViewModel() // this is wrong
+
+        // Fetch MOVIE_ID argument from backStackEntry
+        val movieId = backStackEntry.arguments?.getInt(NavigationKeys.MOVIE_ID)
+
+        // Pass movieId to DetailsScreen
+        DetailsScreen(movieId = movieId, onBackClicked = {
+            navController.popBackStack()
+        })
     }
 }
 

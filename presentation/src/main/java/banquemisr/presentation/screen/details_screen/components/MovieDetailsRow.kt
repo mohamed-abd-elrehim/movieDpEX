@@ -12,7 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import banquemisr.components.shared_components.MovieAppItem
 import banquemisr.presentation.R
-import banquemisr.presentation.screen.details_screen.ui.MovieDetailsUiModel
+import banquemisr.presentation.screen.details_screen.model.MovieDetailsUiModel
 
 @Composable
 fun MovieDetailsRow(movieDetails: MovieDetailsUiModel?) {
@@ -28,13 +28,13 @@ fun MovieDetailsRow(movieDetails: MovieDetailsUiModel?) {
             text = "%,.1f".format(movieDetails?.popularity ?: 0.0)
 
         )
-// voteCount
+    // voteCount
         MovieAppItem(
             icon = Icons.Default.FavoriteBorder,
             contentDescription = stringResource(R.string.vote_count),
             text = String.format("%d", movieDetails?.voteCount ?: 0)
         )
-//  runtime
+    //  runtime
         MovieAppItem(
             image = painterResource(id = R.drawable.runtime),
             contentDescription = stringResource(R.string.runtime),

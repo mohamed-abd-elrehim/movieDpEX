@@ -1,7 +1,7 @@
 package banquemisr.presentation.navigation.screen
 
-object NavigationKeys{
+object NavigationRoutes
+{
     const val LIST_SCREEN = "ListScreen"
     const val DETAILS_SCREEN = "DetailsScreen"
-    const val MOVIE_ID = "movieId"
 }

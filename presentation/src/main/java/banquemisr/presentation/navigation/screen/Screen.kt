@@ -9,12 +9,12 @@ sealed class Screen (
     val arguments:List<NamedNavArgument>
 ){
     object ListScreen : Screen(
-        route = NavigationKeys.LIST_SCREEN,
+        route = NavigationRoutes.LIST_SCREEN,
         arguments = emptyList()
     )
 
     object DetailsScreen : Screen(
-        route = NavigationKeys.DETAILS_SCREEN,
+        route = NavigationRoutes.DETAILS_SCREEN,
         arguments = listOf(
             navArgument(NavigationKeys.MOVIE_ID){
                 type = NavType.IntType

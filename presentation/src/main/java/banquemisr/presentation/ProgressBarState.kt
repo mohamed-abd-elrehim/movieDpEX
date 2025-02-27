@@ -1,4 +1,4 @@
-package banquemisr.core.domain
+package banquemisr.presentation
 
 sealed class ProgressBarState {
     object Loading : ProgressBarState()

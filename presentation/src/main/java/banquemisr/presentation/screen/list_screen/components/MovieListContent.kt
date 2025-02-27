@@ -11,7 +11,7 @@ import banquemisr.presentation.screen.list_screen.model.MovieUiModel
 import coil.ImageLoader
 
 @Composable
-fun MovieUiStateHandler(
+fun MovieListContent(
     title: String,
     uiState: UiState<List<MovieUiModel>>,
     context: Context,

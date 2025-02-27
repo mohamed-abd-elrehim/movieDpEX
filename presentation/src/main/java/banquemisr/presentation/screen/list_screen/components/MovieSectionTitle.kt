@@ -23,8 +23,8 @@ import banquemisr.presentation.R
 fun MovieSectionTitle(title: String, isHorizontal: Boolean) {
     Row(
         modifier = Modifier
-            .fillMaxWidth() // Use fillMaxWidth instead of fillMaxSize
-            .padding(horizontal = 10.dp, vertical = 5.dp), // Add some padding
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -34,23 +34,15 @@ fun MovieSectionTitle(title: String, isHorizontal: Boolean) {
             color = Color.White
         )
 
-        if (isHorizontal) {
-            Icon(
-                painter = painterResource(R.drawable.arrow_forward),
-                contentDescription = stringResource(id = R.string.arrow_forward),
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
-            )
-        }else{
-            Icon(
-                painter = painterResource(R.drawable.arrow_downward),
-                contentDescription = stringResource(id = R.string.arrow_downward),
-                tint = Color.White,
-                modifier = Modifier.size(20.dp)
-            )
-        }
+        Icon(
+            painter = painterResource(if (isHorizontal) R.drawable.arrow_forward else R.drawable.arrow_downward),
+            contentDescription = stringResource(id = R.string.arrow_forward),
+            tint = Color.White,
+            modifier = Modifier.size(20.dp)
+        )
     }
 }
+
 
 
 

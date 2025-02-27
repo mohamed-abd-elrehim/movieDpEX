@@ -5,15 +5,15 @@ import android.content.Context
 import banquemisr.presentation.R
 import coil.ImageLoader
 import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
-import okhttp3.OkHttpClient
-import coil.memory.MemoryCache
 
 @Module
 @InstallIn(SingletonComponent::class)

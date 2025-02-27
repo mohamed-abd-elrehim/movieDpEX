@@ -14,15 +14,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import banquemisr.components.shared_components.AppAlertDialog
 import banquemisr.components.shared_components.AppHorizontalDivider
@@ -32,6 +35,7 @@ import banquemisr.components.shared_components.CircularIndeterminateProgressBar
 import banquemisr.components.shared_components.Gap
 import banquemisr.components.shared_components.LoadAsyncImage
 import banquemisr.components.shared_components.PullToRefreshBox
+import banquemisr.presentation.ProgressBarState
 import banquemisr.presentation.R
 import banquemisr.presentation.UiState
 import banquemisr.presentation.screen.details_screen.components.MovieChipList
@@ -40,17 +44,32 @@ import banquemisr.presentation.screen.details_screen.components.MovieDetailsSeco
 import banquemisr.presentation.screen.details_screen.components.MovieHeader
 import banquemisr.presentation.screen.details_screen.components.MovieProductionCompaniesChipList
 import banquemisr.presentation.screen.details_screen.components.SecondTitle
+import banquemisr.presentation.screen.details_screen.constants.DetailsScreenConst
 import banquemisr.presentation.ui.theme.PrimaryColor
 import banquemisr.presentation.ui.theme.SecondaryColor
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailsScreen(viewModel: DetailsScreenViewModel) {
+fun DetailsScreen(
+    viewModel: DetailsScreenViewModel = hiltViewModel(),
+    movieId: Int?,
+    onBackClicked: () -> Unit
+) {
+
+    LaunchedEffect(movieId) {
+        if (movieId != null) {
+            viewModel.onIntent(DetailsScreenIntent.SaveMovieID(movieId))
+            viewModel.onIntent(DetailsScreenIntent.LoadMovieDetails(movieId))
+        } else {
+            viewModel.onIntent(DetailsScreenIntent.ShownErrorDialog)
+        }
+
+    }
     val state = viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     PullToRefreshBox(
-        isRefreshing = state.value.isRefreshing,
+        isRefreshing = (state.value.isRefreshing == ProgressBarState.Loading),
         onRefresh = { viewModel.onIntent(DetailsScreenIntent.RefreshMovieDetails) },
         content = {
             Box(
@@ -109,7 +128,7 @@ fun DetailsScreen(viewModel: DetailsScreenViewModel) {
                                             )
                                             .size(50.dp)
                                             .padding(5.dp),
-                                        onClick = { viewModel.onIntent(DetailsScreenIntent.BackButtonClicked) }
+                                        onClick = onBackClicked
                                     )
 
                                     Box(
@@ -198,22 +217,22 @@ fun DetailsScreen(viewModel: DetailsScreenViewModel) {
                         is UiState.Error -> {
 
                             AppAlertDialog(
-                                isShowDialog = state.alertDialogState,
+                                isShowDialog = state.isError,
                                 title = "Error",
                                 description = uiState.message,
                                 onDismissRequest = {
-                                    viewModel.onIntent(DetailsScreenIntent.DismissAlertDialog)
+                                    viewModel.onIntent(DetailsScreenIntent.DismissErrorDialog)
                                 }
                             )
                         }
                     }
-                    if (state.isError) {
+                    if (state.movieID == null && state.isError) {
                         AppAlertDialog(
                             isShowDialog = state.isError,
-                            title = "Error",
-                            description = state.errorMassge,
+                            title = stringResource(R.string.error),
+                            description = DetailsScreenConst.ERROR_MESSAGE,
                             onDismissRequest = {
-                                viewModel.onIntent(DetailsScreenIntent.DismissError)
+                                viewModel.onIntent(DetailsScreenIntent.DismissErrorDialog)
                             }
                         )
 

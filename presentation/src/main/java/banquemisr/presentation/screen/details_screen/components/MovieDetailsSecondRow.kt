@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import banquemisr.components.shared_components.MovieAppItem
 import banquemisr.presentation.R
-import banquemisr.presentation.screen.details_screen.ui.MovieDetailsUiModel
+import banquemisr.presentation.screen.details_screen.model.MovieDetailsUiModel
 
 @Composable
 fun MovieDetailsSecondRow(movieDetails: MovieDetailsUiModel?) {

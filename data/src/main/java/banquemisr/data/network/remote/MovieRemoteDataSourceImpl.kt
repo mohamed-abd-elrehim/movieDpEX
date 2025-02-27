@@ -19,7 +19,8 @@ class MovieRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun fetchNowPlayingMovies(): DataState<MovieDbResultDataModel> {
+    override suspend fun fetchNowPlayingMovies(
+    ): DataState<MovieDbResultDataModel> {
         return handleApiCall {
             apiService.fetchNowPlayingMovies()
         }

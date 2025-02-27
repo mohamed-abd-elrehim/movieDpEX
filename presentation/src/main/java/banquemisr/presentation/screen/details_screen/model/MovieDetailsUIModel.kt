@@ -1,4 +1,4 @@
-package banquemisr.presentation.screen.details_screen.ui
+package banquemisr.presentation.screen.details_screen.model
 
 import banquemisr.domain.domain_model.MovieDetailsDomainModel
 
