@@ -1,43 +1,36 @@
+ext["namespace"] = "banquemisr.presentation"
+
+apply {
+
+    from("$rootDir/android-library-build.gradle")
+}
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+
 }
 
-android {
-    namespace = "banquemisr.domain"
-    compileSdk = 35
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-}
 
 dependencies {
+    "implementation"(project(":domain"))
+    "implementation"(project(":components"))
+    "implementation"(libs.coil.compose)
+    "implementation"(libs.nav.compose)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    //Jetpack Compose UI Dependencie kotlin
+    "implementation"(platform(libs.androidx.compose.bom)) // Manage Compose versions
+    "implementation"(libs.androidx.ui) // Jetpack Compose UI toolkit
+    "implementation"(libs.androidx.ui.graphics) // Compose graphics support
+    "implementation"(libs.androidx.ui.tooling.preview) // Preview UI components in Android Studio
+    "implementation"(libs.androidx.material3) // Material Design 3 components
+
+
+    //Debug Dependencies for UI Development kotlin
+    "debugImplementation"(libs.androidx.ui.tooling) // Compose UI debugging tools
+    "debugImplementation"(libs.androidx.ui.test.manifest) // UI testing manifest support
+
+    //UI Testing Dependencies kotlin
+    "androidTestImplementation"(platform(libs.androidx.compose.bom)) // Manage Compose test dependencies
+    "androidTestImplementation"(libs.androidx.ui.test.junit4) // JUnit4 for UI testing
+
+
 }
