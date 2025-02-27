@@ -36,16 +36,16 @@ fun ListScreen(
 {
 
     LaunchedEffect(Unit) {
-        viewModel.onIntent(ListScreenIntent.LoadMovies)
+        viewModel.onIntent(ListScreenIntent.LoadMovies())
     }
 
     val state = viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     PullToRefreshBox(
-        isRefreshing = (state.value.isRefreshing == ProgressBarState.Loading),
+        isRefreshing = (state.value.isRefreshing),
         onRefresh = {
 
-            viewModel.onIntent(ListScreenIntent.RefreshMovies)
+            viewModel.onIntent(ListScreenIntent.LoadMovies(isRefreshing = true))
         },
         content = {
             Column(

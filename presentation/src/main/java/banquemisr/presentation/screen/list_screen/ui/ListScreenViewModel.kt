@@ -13,7 +13,6 @@ import banquemisr.presentation.screen.list_screen.model.toUiModel
 import coil.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,9 +37,7 @@ class ListScreenViewModel @Inject constructor(
 
     fun onIntent(intent: ListScreenIntent) {
         when (intent) {
-            is ListScreenIntent.LoadMovies -> fetchAllMovies()
-            is ListScreenIntent.RefreshMovies -> onPageRefresh()
-
+            is ListScreenIntent.LoadMovies -> fetchAllMovies(intent.isRefreshing)
 
             is ListScreenIntent.DismissErrorDialog -> _state.update {
                 it.copy(isError = true)
@@ -55,10 +52,11 @@ class ListScreenViewModel @Inject constructor(
     }
 
 
-    private fun fetchAllMovies() {
+    private fun fetchAllMovies( isRefreshing: Boolean = false) {
         viewModelScope.launch {
             launch {
                 fetchMovies(
+                    isRefreshing = isRefreshing,
                     fetchFunction = { fetchUpcomingMovies() },
                     updateState = { newState -> _state.update { it.copy(upcomingMovies = newState) } },
                     onError = { onIntent(ListScreenIntent.ShowErrorDialog) }
@@ -67,6 +65,7 @@ class ListScreenViewModel @Inject constructor(
 
             launch {
                 fetchMovies(
+                    isRefreshing = isRefreshing,
                     fetchFunction = { fetchNowPlayingMovies() },
                     updateState = { newState -> _state.update { it.copy(nowPlayingMovies = newState) } },
                     onError = { onIntent(ListScreenIntent.ShowErrorDialog) }
@@ -75,6 +74,7 @@ class ListScreenViewModel @Inject constructor(
         }
     }
     private fun fetchMovies(
+        isRefreshing: Boolean ,
         fetchFunction: suspend () -> Flow<ResultState<List<MovieDomainModel>>>,
         updateState: (UiState<List<MovieUiModel>>) -> Unit,
         onError: () -> Unit
@@ -83,10 +83,15 @@ class ListScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             fetchFunction().onStart {
                 updateState(UiState.Loading(ProgressBarState.Loading))
+                if (isRefreshing) { _state.update { it.copy(isRefreshing = true) } }
             }.collect { dataState ->
                 val newState = when (dataState) {
-                    is ResultState.Success -> UiState.Success(dataState.data.toUiModel())
+                    is ResultState.Success -> {
+                        if (isRefreshing) { _state.update { it.copy(isRefreshing = false) } }
+                        UiState.Success(dataState.data.toUiModel())
+                    }
                     is ResultState.Error -> {
+                        if (isRefreshing) { _state.update { it.copy(isRefreshing = false) } }
                         onError()
                         UiState.Error(dataState.message)
                     }
@@ -97,18 +102,6 @@ class ListScreenViewModel @Inject constructor(
     }
 
 
-
-    private fun onPageRefresh() {
-        viewModelScope.launch(Dispatchers.IO) {
-
-            _state.value = _state.value.copy(isRefreshing = ProgressBarState.Loading)
-
-            onIntent(ListScreenIntent.LoadMovies)
-            delay(1000)
-            _state.value = _state.value.copy(isRefreshing = ProgressBarState.Idle)
-
-        }
-    }
 
 
 

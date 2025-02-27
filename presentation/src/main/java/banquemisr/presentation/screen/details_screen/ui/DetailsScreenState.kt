@@ -9,7 +9,7 @@ import coil.ImageLoader
 data class DetailsScreenState(
     val movieDetails: UiState<MovieDetailsUiModel> = UiState.Loading(ProgressBarState.Idle),
     val imageLoader: ImageLoader?,
-    val isRefreshing: ProgressBarState = ProgressBarState.Idle,
+    val isRefreshing: Boolean = false,
     val isError: Boolean = false,
     val movieID: Int? = null
 

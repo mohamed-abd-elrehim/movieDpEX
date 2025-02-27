@@ -10,6 +10,6 @@ data class ListScreenState(
     val nowPlayingMovies: UiState<List<MovieUiModel>> = UiState.Loading(ProgressBarState.Idle),
     val upcomingMovies: UiState<List<MovieUiModel>> = UiState.Loading(ProgressBarState.Idle),
     val imageLoader: ImageLoader?,
-    val isRefreshing: ProgressBarState = ProgressBarState.Idle,
+    val isRefreshing:Boolean = false,
     val isError: Boolean = false,
     )

@@ -11,10 +11,10 @@ import banquemisr.presentation.screen.details_screen.model.toUiModel
 import coil.ImageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,29 +31,28 @@ class DetailsScreenViewModel @Inject constructor(
 
     fun onIntent(intent: DetailsScreenIntent) {
         when (intent) {
-            is DetailsScreenIntent.LoadMovieDetails -> fetchMovie(intent.movieID)
-            is DetailsScreenIntent.RefreshMovieDetails -> onPageRefresh()
+            is DetailsScreenIntent.LoadMovieDetails -> fetchMovie(intent.isRefreshing)
             is DetailsScreenIntent.DismissErrorDialog -> _state.value = _state.value.copy(
-                isError =
-                false
+                isError = false
             )
 
             is DetailsScreenIntent.ShownErrorDialog -> _state.value =
                 _state.value.copy(isError = true)
 
-            is DetailsScreenIntent.SaveMovieID -> _state.value =
-                _state.value.copy(movieID = intent.movieID)
-
+            is DetailsScreenIntent.SaveMovieID -> {
+                _state.value = _state.value.copy(movieID = intent.movieID)
+                fetchMovie(false)
+            }
 
         }
     }
 
 
-    private fun fetchMovie(movieId: Int) {
-
-
+    private fun fetchMovie(isRefreshing:Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
+            val movieId = state.value.movieID ?: return@launch
             fetchMovieDetails(movieId).onStart {
+                if (isRefreshing) { _state.update { it.copy(isRefreshing = true)}}
                 _state.value = _state.value.copy(
                     movieDetails = UiState.Loading(
                         ProgressBarState.Loading
@@ -62,6 +61,7 @@ class DetailsScreenViewModel @Inject constructor(
             }.collect { dataState ->
                 when (dataState) {
                     is ResultState.Success -> {
+                        if (isRefreshing) { _state.update { it.copy(isRefreshing = false)}}
                         _state.value = _state.value.copy(
                             movieDetails = UiState.Success(
                                 (dataState
@@ -72,6 +72,8 @@ class DetailsScreenViewModel @Inject constructor(
                     }
 
                     is ResultState.Error -> {
+                        if (isRefreshing) { _state.update { it.copy(isRefreshing = false)}}
+
                         onIntent(DetailsScreenIntent.ShownErrorDialog)
                         _state.value =
                             _state.value.copy(movieDetails = UiState.Error(dataState.message))
@@ -83,21 +85,7 @@ class DetailsScreenViewModel @Inject constructor(
 
     }
 
-    private fun onPageRefresh() {
 
-        val movieId = _state.value.movieID
-        if (movieId != null) {
-            _state.value = _state.value.copy(isRefreshing = ProgressBarState.Loading)
-            viewModelScope.launch(Dispatchers.IO) {
-                onIntent(DetailsScreenIntent.LoadMovieDetails(movieId))
-                delay(1000)
-                _state.value = _state.value.copy(isRefreshing = ProgressBarState.Idle)
-            }
-        } else {
-            onIntent(DetailsScreenIntent.ShownErrorDialog)
-        }
-
-    }
 
 
 }

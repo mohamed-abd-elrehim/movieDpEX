@@ -60,7 +60,6 @@ fun DetailsScreen(
     LaunchedEffect(movieId) {
         if (movieId != null) {
             viewModel.onIntent(DetailsScreenIntent.SaveMovieID(movieId))
-            viewModel.onIntent(DetailsScreenIntent.LoadMovieDetails(movieId))
         } else {
             viewModel.onIntent(DetailsScreenIntent.ShownErrorDialog)
         }
@@ -69,8 +68,8 @@ fun DetailsScreen(
     val state = viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     PullToRefreshBox(
-        isRefreshing = (state.value.isRefreshing == ProgressBarState.Loading),
-        onRefresh = { viewModel.onIntent(DetailsScreenIntent.RefreshMovieDetails) },
+        isRefreshing = (state.value.isRefreshing),
+        onRefresh = { viewModel.onIntent(DetailsScreenIntent.LoadMovieDetails(isRefreshing = true)) },
         content = {
             Box(
                 modifier = Modifier.fillMaxSize()
