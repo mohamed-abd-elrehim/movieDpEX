@@ -7,6 +7,7 @@ apply {
 plugins {
     alias(libs.plugins.android.library)
 
+    alias(libs.plugins.kotlin.serialization)
 }
 
 
@@ -15,7 +16,7 @@ dependencies {
     "implementation"(project(":components"))
     "implementation"(libs.coil.compose)
     "implementation"(libs.nav.compose)
-
+    "implementation"(libs.kotlinx.serialization)
     //Jetpack Compose UI Dependencie kotlin
     "implementation"(platform(libs.androidx.compose.bom)) // Manage Compose versions
     "implementation"(libs.androidx.ui) // Jetpack Compose UI toolkit

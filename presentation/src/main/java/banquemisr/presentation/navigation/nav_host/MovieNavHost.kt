@@ -12,19 +12,20 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import banquemisr.presentation.navigation.screen.NavigationKeys
-import banquemisr.presentation.navigation.screen.Screen
+import androidx.navigation.toRoute
+import banquemisr.presentation.navigation.screen.DetailsScreen
+import banquemisr.presentation.navigation.screen.ListScreen
 import banquemisr.presentation.screen.details_screen.ui.DetailsScreen
 import banquemisr.presentation.screen.list_screen.ui.ListScreen
 
 @Composable
 fun MovieNavHost (navController: NavHostController) {
-    
+
 
 
     NavHost(
         navController = navController,
-        startDestination = Screen.ListScreen.route,
+        startDestination = ListScreen,
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding(),
@@ -42,8 +43,7 @@ fun MovieNavHost (navController: NavHostController) {
 fun NavGraphBuilder.addListScreen(
     navController: NavHostController
 ) {
-    composable(
-        route = Screen.ListScreen.route,
+    composable<ListScreen>(
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -it },
@@ -61,7 +61,7 @@ fun NavGraphBuilder.addListScreen(
     ) {
 
         ListScreen(onMovieClick = { movieId ->
-            navController.navigate(Screen.DetailsScreen.route + "/$movieId")
+            navController.navigate(DetailsScreen(movieId))
         }
         )
 
@@ -71,9 +71,7 @@ fun NavGraphBuilder.addListScreen(
 fun NavGraphBuilder.addDetailsScreen(
     navController: NavHostController
 ) {
-    composable(
-        route = Screen.DetailsScreen.route + "/{${NavigationKeys.MOVIE_ID}}",
-        arguments = Screen.DetailsScreen.arguments,
+    composable<DetailsScreen>(
         enterTransition = {
             slideInHorizontally(
                 initialOffsetX = { it },
@@ -91,10 +89,10 @@ fun NavGraphBuilder.addDetailsScreen(
         //val detailsScreenViewModel: DetailsScreenViewModel = hiltViewModel() // this is wrong
 
         // Fetch MOVIE_ID argument from backStackEntry
-        val movieId = backStackEntry.arguments?.getInt(NavigationKeys.MOVIE_ID)
+        val detailsScreen: DetailsScreen = backStackEntry.toRoute()
 
         // Pass movieId to DetailsScreen
-        DetailsScreen(movieId = movieId, onBackClicked = {
+        DetailsScreen(movieId = detailsScreen.movieId, onBackClicked = {
             navController.popBackStack()
         })
     }
